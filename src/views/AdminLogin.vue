@@ -98,6 +98,12 @@ async function handleLogin() {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
+/* 浅色模式下登录卡片改为浅色背景 */
+:root:not(.dark) .login-card {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
 .login-header {
   text-align: center;
   margin-bottom: 2.5rem;
@@ -110,12 +116,22 @@ async function handleLogin() {
   color: #ffffff;
 }
 
+/* 浅色模式下标题改为深色 */
+:root:not(.dark) .title {
+  color: #0f172a;
+}
+
 .subtitle {
   margin: 0;
   font-size: 0.875rem;
   color: #cbd5e1;
   font-weight: 500;
   letter-spacing: 0.05em;
+}
+
+/* 浅色模式下副标题改为深色 */
+:root:not(.dark) .subtitle {
+  color: #475569;
 }
 
 .login-form {
@@ -134,6 +150,11 @@ async function handleLogin() {
   color: #ffffff;
 }
 
+/* 浅色模式下标签改为深色 */
+:root:not(.dark) .form-group label {
+  color: #0f172a;
+}
+
 .form-group input {
   width: 100%;
   padding: 0.875rem 1rem;
@@ -143,6 +164,13 @@ async function handleLogin() {
   color: #ffffff;
   font-size: 1rem;
   transition: all 0.3s;
+}
+
+/* 浅色模式下输入框文字改为深色，背景改为浅色 */
+:root:not(.dark) .form-group input {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: #0f172a;
 }
 
 .form-group input::placeholder {
@@ -177,15 +205,20 @@ async function handleLogin() {
   background: linear-gradient(135deg, #42b983 0%, #35a372 100%);
   border: none;
   border-radius: 0.5rem;
-  color: #ffffff !important;
+  color: #ffffff;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s;
 }
 
+/* 浅色模式下按钮文字改为深色 */
+:root:not(.dark) .login-btn {
+  color: #0f172a;
+}
+
 .login-btn span {
-  color: #ffffff !important;
+  color: inherit;
 }
 
 .login-btn:hover:not(:disabled) {

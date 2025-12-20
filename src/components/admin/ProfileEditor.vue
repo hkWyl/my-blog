@@ -435,11 +435,16 @@ function handleReset() {
 
 .btn-primary {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-  color: #ffffff !important;
+  color: #ffffff;
+}
+
+/* 浅色模式下按钮文字改为深色 */
+:root:not(.dark) .btn-primary {
+  color: #0f172a;
 }
 
 .btn-primary span {
-  color: #ffffff !important;
+  color: inherit;
 }
 
 .btn-primary:hover:not(:disabled) {

@@ -333,6 +333,10 @@ async function handleSavePost() {
           latestSha,
           `Update: ${postForm.value.title}`
         )
+
+        // 保存成功后，重新获取最新 SHA 并更新表单，避免下次保存冲突
+        const updatedFile = await getFileContent(postForm.value.filename)
+        postForm.value.sha = updatedFile.sha
       } catch (err) {
         // 如果获取最新 SHA 失败，尝试使用缓存的 SHA
         if (err.message.includes('404')) {
@@ -432,16 +436,22 @@ async function handleDeletePost(post) {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
   border: none;
   border-radius: 0.5rem;
-  color: #ffffff !important;
+  color: #ffffff;
   font-size: 0.9375rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s;
 }
 
+/* 浅色模式下按钮文字改为深色 */
+:root:not(.dark) .btn-new-post,
+:root:not(.dark) .btn-cancel {
+  color: #0f172a;
+}
+
 .btn-new-post span,
 .btn-cancel span {
-  color: #ffffff !important;
+  color: inherit;
 }
 
 .btn-new-post:hover,
@@ -730,11 +740,16 @@ async function handleDeletePost(post) {
 
 .btn-primary {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-  color: #ffffff !important;
+  color: #ffffff;
+}
+
+/* 浅色模式下按钮文字改为深色 */
+:root:not(.dark) .btn-primary {
+  color: #0f172a;
 }
 
 .btn-primary span {
-  color: #ffffff !important;
+  color: inherit;
 }
 
 .btn-primary:hover:not(:disabled) {
