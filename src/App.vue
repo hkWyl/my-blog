@@ -1,22 +1,34 @@
 <script setup>
-import { RouterView } from 'vue-router'
+import { RouterView, useRoute } from 'vue-router'
+import { computed } from 'vue'
 import BlogHeader from './components/BlogHeader.vue'
 import BlogSidebar from './components/BlogSidebar.vue'
 import PlasmaBackground from './components/PlasmaBackground.vue'
+
+const route = useRoute()
+const hideLayout = computed(() => route.meta.hideLayout)
 </script>
 
 <template>
   <PlasmaBackground />
   <div id="app">
-    <BlogHeader />
-    <div class="container">
-      <main class="main-content">
-        <RouterView />
-      </main>
-      <aside class="sidebar">
-        <BlogSidebar />
-      </aside>
-    </div>
+    <!-- 普通博客布局 -->
+    <template v-if="!hideLayout">
+      <BlogHeader />
+      <div class="container">
+        <main class="main-content">
+          <RouterView />
+        </main>
+        <aside class="sidebar">
+          <BlogSidebar />
+        </aside>
+      </div>
+    </template>
+
+    <!-- 管理面板全屏布局 -->
+    <template v-else>
+      <RouterView />
+    </template>
   </div>
 </template>
 
