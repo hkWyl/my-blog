@@ -2,13 +2,13 @@ import axios from 'axios'
 import blogConfig from '@/config/blog.config.js'
 
 // 创建 axios 实例
-const giteeApi = axios.create({
+const githubApi = axios.create({
   baseURL: blogConfig.api.base,
   timeout: 10000,
 })
 
 // 响应拦截器
-giteeApi.interceptors.response.use(
+githubApi.interceptors.response.use(
   (response) => response.data,
   (error) => {
     console.error('API 请求失败:', error)
@@ -21,8 +21,8 @@ giteeApi.interceptors.response.use(
  */
 export const getRepoTree = async () => {
   try {
-    const { owner, repo, branch } = blogConfig.gitee
-    const response = await giteeApi.get(`/repos/${owner}/${repo}/git/trees/${branch}`, {
+    const { owner, repo, branch } = blogConfig.github
+    const response = await githubApi.get(`/repos/${owner}/${repo}/git/trees/${branch}`, {
       params: {
         recursive: 1, // 递归获取所有文件
       },
@@ -35,13 +35,19 @@ export const getRepoTree = async () => {
 }
 
 /**
- * 获取文件内容（Base64 编码）
+ * 获取文件内容（使用 GitHub Raw URL，直接返回文本内容）
  */
 export const getFileContent = async (path) => {
   try {
-    const { owner, repo } = blogConfig.gitee
-    const response = await giteeApi.get(`/repos/${owner}/${repo}/contents/${path}`)
-    return response
+    const { owner, repo, branch } = blogConfig.github
+    // 使用 GitHub raw content URL，直接获取文本内容
+    const rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${path}`
+    const response = await axios.get(rawUrl)
+    return {
+      content: response.data,
+      path: path,
+      name: path.split('/').pop(),
+    }
   } catch (error) {
     console.error('获取文件内容失败:', error)
     return null
@@ -96,14 +102,11 @@ export const getPostDetail = async (path) => {
       return null
     }
 
-    const content = decodeBase64Content(fileData.content)
+    // GitHub raw URL 直接返回文本内容，不需要 base64 解码
     return {
       path: fileData.path,
       name: fileData.name,
-      content,
-      sha: fileData.sha,
-      size: fileData.size,
-      download_url: fileData.download_url,
+      content: fileData.content,
     }
   } catch (error) {
     console.error('获取文章详情失败:', error)

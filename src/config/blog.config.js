@@ -7,16 +7,16 @@ export default {
   description: '一个专注于技术分享的个人博客',
   avatar: 'https://img.xintp.com/c2023/08/25/jld0yeg3kcw.jpg',
 
-  // Gitee 配置
-  gitee: {
-    owner: 'love-little-monster', // Gitee 用户名
-    repo: 'my-blog-posts', // 存储文章的仓库名
-    branch: 'master', // 分支名，默认是 master
+  // GitHub 配置（文章存储在 GitHub）
+  github: {
+    owner: 'hkWyl', // GitHub 用户名
+    repo: 'my-blog', // 存储文章的仓库名
+    branch: 'posts', // 文章分支
   },
 
-  // Gitee API 地址
+  // GitHub API 地址
   api: {
-    base: 'https://gitee.com/api/v5',
+    base: 'https://api.github.com',
   },
 
   // 导航菜单
@@ -33,8 +33,7 @@ export default {
 
   // 社交链接（可选）
   social: {
-    gitee: 'https://gitee.com/love-little-monster',
-    // github: '',
+    github: 'https://github.com/hkWyl',
     // email: '',
   },
 
