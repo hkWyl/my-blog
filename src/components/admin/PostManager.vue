@@ -162,7 +162,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { getAllPosts, createFile, updateFile, deleteFile, generateMarkdownContent } from '@/api/githubAdmin'
+import { getAllPosts, getFileContent, createFile, updateFile, deleteFile, generateMarkdownContent } from '@/api/githubAdmin'
 import TagInput from './TagInput.vue'
 import MarkdownEditor from './MarkdownEditor.vue'
 import adminConfig from '@/config/admin.config.js'
@@ -323,13 +323,25 @@ async function handleSavePost() {
     )
 
     if (isEditing.value) {
-      // 更新现有文章
-      await updateFile(
-        postForm.value.filename,
-        markdownContent,
-        postForm.value.sha,
-        `Update: ${postForm.value.title}`
-      )
+      // 更新现有文章 - 先获取最新的 SHA 避免冲突
+      try {
+        const latestFile = await getFileContent(postForm.value.filename)
+        const latestSha = latestFile.sha
+        await updateFile(
+          postForm.value.filename,
+          markdownContent,
+          latestSha,
+          `Update: ${postForm.value.title}`
+        )
+      } catch (err) {
+        // 如果获取最新 SHA 失败，尝试使用缓存的 SHA
+        if (err.message.includes('404')) {
+          // 文件不存在，当作新建处理
+          await createFile(postForm.value.filename, markdownContent, `Add: ${postForm.value.title}`)
+        } else {
+          throw err
+        }
+      }
     } else {
       // 创建新文章
       await createFile(postForm.value.filename, markdownContent, `Add: ${postForm.value.title}`)
