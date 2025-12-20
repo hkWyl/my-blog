@@ -85,17 +85,6 @@ async function handleLogin() {
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  /* 强制高对比度 */
-  --admin-text: #f1f5f9;
-  --admin-text-strong: #ffffff;
-  --admin-text-muted: #cbd5e1;
-}
-
-/* Light mode */
-:root:not(.dark) .admin-login {
-  --admin-text: #1e293b;
-  --admin-text-strong: #0f172a;
-  --admin-text-muted: #64748b;
 }
 
 .login-card {
@@ -109,12 +98,6 @@ async function handleLogin() {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
-:root:not(.dark) .login-card {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
 .login-header {
   text-align: center;
   margin-bottom: 2.5rem;
@@ -124,13 +107,13 @@ async function handleLogin() {
   margin: 0 0 0.5rem;
   font-size: 1.75rem;
   font-weight: 700;
-  color: var(--admin-text-strong);
+  color: #ffffff;
 }
 
 .subtitle {
   margin: 0;
   font-size: 0.875rem;
-  color: var(--admin-text-muted);
+  color: #cbd5e1;
   font-weight: 500;
   letter-spacing: 0.05em;
 }
@@ -148,7 +131,7 @@ async function handleLogin() {
   margin-bottom: 0.5rem;
   font-size: 0.875rem;
   font-weight: 500;
-  color: var(--admin-text-strong);
+  color: #ffffff;
 }
 
 .form-group input {
@@ -157,15 +140,13 @@ async function handleLogin() {
   background: rgba(15, 23, 42, 0.5);
   border: 1px solid rgba(100, 116, 139, 0.3);
   border-radius: 0.5rem;
-  color: var(--admin-text-strong);
+  color: #ffffff;
   font-size: 1rem;
   transition: all 0.3s;
 }
 
-:root:not(.dark) .form-group input {
-  background: rgba(255, 255, 255, 0.5);
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  color: var(--admin-text-strong);
+.form-group input::placeholder {
+  color: rgba(203, 213, 225, 0.5);
 }
 
 .form-group input:focus {
@@ -193,14 +174,18 @@ async function handleLogin() {
 .login-btn {
   width: 100%;
   padding: 0.875rem;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  background: linear-gradient(135deg, #42b983 0%, #35a372 100%);
   border: none;
   border-radius: 0.5rem;
-  color: #ffffff;
+  color: #ffffff !important;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s;
+}
+
+.login-btn span {
+  color: #ffffff !important;
 }
 
 .login-btn:hover:not(:disabled) {
@@ -226,7 +211,7 @@ async function handleLogin() {
 .hint {
   margin: 0 0 0.5rem;
   font-size: 0.875rem;
-  color: var(--admin-text);
+  color: #e2e8f0;
 }
 
 .security-note {

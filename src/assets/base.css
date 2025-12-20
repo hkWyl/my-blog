@@ -33,40 +33,27 @@
   --color-border: rgba(66, 185, 131, 0.2);
   --color-border-hover: rgba(66, 185, 131, 0.4);
 
-  --color-heading: #f1f5f9;
-  --color-text: #e2e8f0;
+  /* 强制深色主题文字颜色 */
+  --color-heading: #ffffff;
+  --color-text: #f1f5f9;
   --color-text-muted: #cbd5e1;
 }
 
-/* Dark theme */
+/* Dark theme - 同样的深色主题 */
 :root.dark {
-  --color-background: var(--vt-c-black);
-  --color-background-soft: var(--vt-c-black-soft);
-  --color-background-mute: var(--vt-c-black-mute);
+  --color-background: rgba(10, 14, 26, 0.8);
+  --color-background-soft: rgba(26, 31, 46, 0.9);
+  --color-background-mute: rgba(15, 20, 25, 0.85);
 
-  --color-border: var(--vt-c-divider-dark-2);
-  --color-border-hover: var(--vt-c-divider-dark-1);
+  --color-border: rgba(66, 185, 131, 0.2);
+  --color-border-hover: rgba(66, 185, 131, 0.4);
 
-  --color-heading: var(--vt-c-text-dark-1);
-  --color-text: var(--vt-c-text-dark-2);
-  --color-text-muted: rgba(235, 235, 235, 0.5);
+  --color-heading: #ffffff;
+  --color-text: #f1f5f9;
+  --color-text-muted: #cbd5e1;
 }
 
-/* Auto dark mode based on system preference */
-@media (prefers-color-scheme: dark) {
-  :root:not(.dark):not([data-theme='light']) {
-    --color-background: var(--vt-c-black);
-    --color-background-soft: var(--vt-c-black-soft);
-    --color-background-mute: var(--vt-c-black-mute);
-
-    --color-border: var(--vt-c-divider-dark-2);
-    --color-border-hover: var(--vt-c-divider-dark-1);
-
-    --color-heading: var(--vt-c-text-dark-1);
-    --color-text: var(--vt-c-text-dark-2);
-    --color-text-muted: rgba(235, 235, 235, 0.5);
-  }
-}
+/* 移除自动深色模式检测，统一使用深色主题 */
 
 *,
 *::before,
