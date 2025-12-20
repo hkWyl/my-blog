@@ -163,6 +163,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { getAllPosts, getFileContent, createFile, updateFile, deleteFile, generateMarkdownContent } from '@/api/githubAdmin'
+import { parseFrontMatter } from '@/utils/markdown'
 import TagInput from './TagInput.vue'
 import MarkdownEditor from './MarkdownEditor.vue'
 import adminConfig from '@/config/admin.config.js'
@@ -261,19 +262,47 @@ function handleNewPost() {
   currentView.value = 'editor'
 }
 
-function handleEditPost(post) {
+async function handleEditPost(post) {
   isEditing.value = true
   editingPost.value = post
 
-  postForm.value = {
-    title: post.title,
-    date: post.date,
-    filename: post.filename,
-    categories: [...post.categories],
-    tags: [...post.tags],
-    excerpt: post.excerpt,
-    content: post.content,
-    sha: post.sha,
+  // 重新从 GitHub 获取最新文件内容，避免使用缓存数据
+  console.log('📥 重新获取文件最新内容:', post.filename)
+  try {
+    const latestFile = await getFileContent(post.filename)
+
+    // 解析最新的 frontmatter
+    const { data: frontMatter } = parseFrontMatter(latestFile.content)
+    const contentMatch = latestFile.content.match(/^---\n[\s\S]*?\n---\n([\s\S]*)$/)
+    const mainContent = contentMatch ? contentMatch[1] : latestFile.content
+
+    postForm.value = {
+      title: frontMatter.title || post.title,
+      date: frontMatter.date || post.date,
+      filename: post.filename,
+      categories: Array.isArray(frontMatter.categories) ? frontMatter.categories :
+                  (typeof frontMatter.categories === 'string' ? frontMatter.categories.split(',').map(c => c.trim()) : []),
+      tags: Array.isArray(frontMatter.tags) ? frontMatter.tags :
+            (typeof frontMatter.tags === 'string' ? frontMatter.tags.split(',').map(t => t.trim()) : []),
+      excerpt: frontMatter.excerpt || post.excerpt,
+      content: mainContent.trim(),
+      sha: latestFile.sha,
+    }
+
+    console.log('✅ 加载最新文件成功，标题:', postForm.value.title)
+  } catch (error) {
+    console.error('❌ 获取最新文件失败，使用缓存数据:', error)
+    // 如果失败，降级使用缓存数据
+    postForm.value = {
+      title: post.title,
+      date: post.date,
+      filename: post.filename,
+      categories: [...post.categories],
+      tags: [...post.tags],
+      excerpt: post.excerpt,
+      content: post.content,
+      sha: post.sha,
+    }
   }
 
   currentView.value = 'editor'
