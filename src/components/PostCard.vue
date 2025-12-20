@@ -47,16 +47,41 @@ const formatDate = (dateString) => {
 <style scoped>
 .post-card {
   background: var(--color-background-soft);
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   padding: 2rem;
-  transition: all 0.3s;
-  border: 1px solid transparent;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.post-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(66, 185, 131, 0.1),
+    transparent
+  );
+  transition: left 0.6s;
+}
+
+.post-card:hover::before {
+  left: 100%;
 }
 
 .post-card:hover {
-  border-color: var(--color-border-hover);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
+  border-color: var(--color-primary);
+  box-shadow:
+    0 0 20px rgba(66, 185, 131, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-4px);
+  background: rgba(26, 31, 46, 0.95);
 }
 
 .post-link {
@@ -73,11 +98,29 @@ const formatDate = (dateString) => {
   margin: 0 0 0.5rem;
   font-size: 1.5rem;
   color: var(--color-heading);
-  transition: color 0.2s;
+  transition: all 0.3s;
+  position: relative;
+  display: inline-block;
+}
+
+.post-title::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-primary), transparent);
+  transition: width 0.4s;
 }
 
 .post-card:hover .post-title {
   color: var(--color-primary);
+  text-shadow: 0 0 10px rgba(66, 185, 131, 0.3);
+}
+
+.post-card:hover .post-title::after {
+  width: 100%;
 }
 
 .post-meta {
@@ -94,22 +137,32 @@ const formatDate = (dateString) => {
 }
 
 .category {
-  padding: 0.125rem 0.5rem;
-  background: var(--color-background);
-  border-radius: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  background: rgba(66, 185, 131, 0.1);
+  border-radius: 0.375rem;
+  border: 1px solid rgba(66, 185, 131, 0.3);
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.post-card:hover .category {
+  background: rgba(66, 185, 131, 0.2);
+  border-color: var(--color-primary);
 }
 
 .post-excerpt {
   margin: 1rem 0;
   color: var(--color-text);
-  line-height: 1.6;
+  line-height: 1.8;
 }
 
 .post-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
 }
 
 .tags {
@@ -120,12 +173,32 @@ const formatDate = (dateString) => {
 
 .tag {
   font-size: 0.875rem;
-  color: var(--color-text-muted);
+  color: var(--color-primary);
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.post-card:hover .tag {
+  opacity: 1;
 }
 
 .read-more {
   font-size: 0.875rem;
   color: var(--color-primary);
-  font-weight: 500;
+  font-weight: 600;
+  transition: all 0.3s;
+  position: relative;
+  padding-right: 20px;
+}
+
+.read-more::after {
+  content: '→';
+  position: absolute;
+  right: 0;
+  transition: transform 0.3s;
+}
+
+.post-card:hover .read-more::after {
+  transform: translateX(4px);
 }
 </style>
