@@ -22,9 +22,15 @@ githubApi.interceptors.response.use(
 export const getRepoTree = async () => {
   try {
     const { owner, repo, branch } = blogConfig.github
+    // 添加时间戳参数绕过缓存
+    const timestamp = new Date().getTime()
     const response = await githubApi.get(`/repos/${owner}/${repo}/git/trees/${branch}`, {
       params: {
         recursive: 1, // 递归获取所有文件
+        t: timestamp, // 缓存破坏参数
+      },
+      headers: {
+        'Cache-Control': 'no-cache', // 禁用缓存
       },
     })
     return response
@@ -40,9 +46,15 @@ export const getRepoTree = async () => {
 export const getFileContent = async (path) => {
   try {
     const { owner, repo, branch } = blogConfig.github
+    // 添加时间戳参数绕过 GitHub CDN 缓存
+    const timestamp = new Date().getTime()
     // 使用 GitHub raw content URL，直接获取文本内容
-    const rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${path}`
-    const response = await axios.get(rawUrl)
+    const rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${path}?t=${timestamp}`
+    const response = await axios.get(rawUrl, {
+      headers: {
+        'Cache-Control': 'no-cache', // 禁用浏览器缓存
+      },
+    })
     return {
       content: response.data,
       path: path,
