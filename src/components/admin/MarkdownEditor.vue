@@ -320,14 +320,38 @@ function handlePreviewScroll() {
 .preview-pane {
   padding: 1.5rem;
   background: rgba(15, 23, 42, 0.3);
+  color: var(--admin-text-strong);
 }
 
 :root:not(.dark) .preview-pane {
   background: rgba(255, 255, 255, 0.3);
+  color: var(--admin-text-strong);
 }
 
 .preview-content {
   min-height: 100%;
+  color: inherit;
+}
+
+/* 确保预览内容的所有文字都继承正确的颜色 */
+.preview-content :deep(*) {
+  color: inherit;
+}
+
+.preview-content :deep(h1),
+.preview-content :deep(h2),
+.preview-content :deep(h3),
+.preview-content :deep(h4),
+.preview-content :deep(h5),
+.preview-content :deep(h6) {
+  color: var(--admin-text-strong);
+}
+
+.preview-content :deep(p),
+.preview-content :deep(li),
+.preview-content :deep(td),
+.preview-content :deep(span) {
+  color: var(--admin-text);
 }
 
 .editor-footer {

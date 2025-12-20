@@ -278,7 +278,7 @@ function handleReset() {
 .loading-state {
   text-align: center;
   padding: 3rem;
-  color: var(--color-text-muted);
+  color: var(--admin-text-muted);
 }
 
 .spinner {
@@ -392,7 +392,7 @@ function handleReset() {
   display: block;
   margin-top: 0.5rem;
   font-size: 0.875rem;
-  color: var(--color-text-muted);
+  color: var(--admin-text-muted);
 }
 
 .error-message,

@@ -203,7 +203,7 @@ function handleInput() {
 }
 
 .tag-input-field::placeholder {
-  color: var(--color-text-muted);
+  color: var(--admin-text-muted);
 }
 
 .suggestions {
@@ -250,6 +250,6 @@ function handleInput() {
 .hint {
   margin: 0.5rem 0 0;
   font-size: 0.75rem;
-  color: var(--color-text-muted);
+  color: var(--admin-text-muted);
 }
 </style>

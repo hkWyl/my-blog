@@ -85,6 +85,17 @@ async function handleLogin() {
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  /* 强制高对比度 */
+  --admin-text: #f1f5f9;
+  --admin-text-strong: #ffffff;
+  --admin-text-muted: #cbd5e1;
+}
+
+/* Light mode */
+:root:not(.dark) .admin-login {
+  --admin-text: #1e293b;
+  --admin-text-strong: #0f172a;
+  --admin-text-muted: #64748b;
 }
 
 .login-card {
@@ -113,16 +124,13 @@ async function handleLogin() {
   margin: 0 0 0.5rem;
   font-size: 1.75rem;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--admin-text-strong);
 }
 
 .subtitle {
   margin: 0;
   font-size: 0.875rem;
-  color: var(--color-text-muted);
+  color: var(--admin-text-muted);
   font-weight: 500;
   letter-spacing: 0.05em;
 }
@@ -140,7 +148,7 @@ async function handleLogin() {
   margin-bottom: 0.5rem;
   font-size: 0.875rem;
   font-weight: 500;
-  color: var(--color-text);
+  color: var(--admin-text-strong);
 }
 
 .form-group input {
@@ -149,7 +157,7 @@ async function handleLogin() {
   background: rgba(15, 23, 42, 0.5);
   border: 1px solid rgba(100, 116, 139, 0.3);
   border-radius: 0.5rem;
-  color: var(--color-text);
+  color: var(--admin-text-strong);
   font-size: 1rem;
   transition: all 0.3s;
 }
@@ -157,6 +165,7 @@ async function handleLogin() {
 :root:not(.dark) .form-group input {
   background: rgba(255, 255, 255, 0.5);
   border: 1px solid rgba(0, 0, 0, 0.2);
+  color: var(--admin-text-strong);
 }
 
 .form-group input:focus {
@@ -187,7 +196,7 @@ async function handleLogin() {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
   border: none;
   border-radius: 0.5rem;
-  color: white;
+  color: #ffffff;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
@@ -217,7 +226,7 @@ async function handleLogin() {
 .hint {
   margin: 0 0 0.5rem;
   font-size: 0.875rem;
-  color: var(--color-text-muted);
+  color: var(--admin-text);
 }
 
 .security-note {
