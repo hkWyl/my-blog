@@ -435,7 +435,11 @@ function handleReset() {
 
 .btn-primary {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-  color: #ffffff;
+  color: #ffffff !important;
+}
+
+.btn-primary span {
+  color: #ffffff !important;
 }
 
 .btn-primary:hover:not(:disabled) {
