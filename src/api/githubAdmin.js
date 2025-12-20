@@ -171,21 +171,29 @@ export async function updateFile(filepath, content, sha, message = '更新文章
   console.log('📝 Updating file:', filepath)
   console.log('🔗 API URL:', url)
   console.log('🏷️  File SHA:', sha)
+  console.log('📄 Content length:', content.length)
+  console.log('💬 Commit message:', message)
 
   // 将内容编码为 base64
   const base64Content = btoa(unescape(encodeURIComponent(content)))
+  console.log('🔐 Base64 content length:', base64Content.length)
+
+  const requestBody = {
+    message,
+    content: base64Content,
+    sha,
+    branch,
+  }
+  console.log('📦 Request body:', JSON.stringify(requestBody).substring(0, 200) + '...')
 
   try {
+    console.log('🚀 Sending PUT request...')
     const response = await fetch(url, {
       method: 'PUT',
       headers: getHeaders(),
-      body: JSON.stringify({
-        message,
-        content: base64Content,
-        sha,
-        branch,
-      }),
+      body: JSON.stringify(requestBody),
     })
+    console.log('✅ Response received, status:', response.status, response.statusText)
 
     if (!response.ok) {
       const errorData = await response.json()

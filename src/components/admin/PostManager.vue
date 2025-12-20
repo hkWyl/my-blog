@@ -293,6 +293,18 @@ async function handleSavePost() {
   saveSuccess.value = false
 
   try {
+    // 调试：打印表单数据
+    console.log('💾 开始保存文章...')
+    console.log('📋 表单数据:', {
+      title: postForm.value.title,
+      filename: postForm.value.filename,
+      date: postForm.value.date,
+      categories: postForm.value.categories,
+      tags: postForm.value.tags,
+      excerpt: postForm.value.excerpt,
+      contentLength: postForm.value.content.length,
+    })
+
     // 验证表单
     if (!postForm.value.title.trim()) {
       throw new Error('请输入文章标题')
@@ -321,6 +333,8 @@ async function handleSavePost() {
       },
       postForm.value.content
     )
+
+    console.log('📝 生成的 Markdown 前50字符:', markdownContent.substring(0, 150))
 
     if (isEditing.value) {
       // 更新现有文章 - 先获取最新的 SHA 避免冲突

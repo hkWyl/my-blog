@@ -10,10 +10,13 @@ const error = ref(null)
 export const usePosts = () => {
   /**
    * 加载所有文章
+   * @param {boolean} forceRefresh - 强制刷新，忽略缓存
    */
-  const loadAllPosts = async () => {
-    // 移除了缓存检查，每次都重新加载以确保获取最新内容
-    // API 层已经有时间戳参数来处理 HTTP 缓存
+  const loadAllPosts = async (forceRefresh = false) => {
+    // 如果已有缓存且不强制刷新，直接返回
+    if (posts.value.length > 0 && !forceRefresh) {
+      return posts.value
+    }
 
     loading.value = true
     error.value = null
