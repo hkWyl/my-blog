@@ -1,7 +1,8 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
+import { useAuth } from '@/composables/useAuth'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
@@ -51,12 +52,46 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue'),
       meta: { title: '关于' },
     },
+    // 管理员路由
+    {
+      path: '/admin',
+      name: 'admin-login',
+      component: () => import('../views/AdminLogin.vue'),
+      meta: { title: '管理员登录', hideLayout: true },
+    },
+    {
+      path: '/admin/dashboard',
+      name: 'admin-dashboard',
+      component: () => import('../views/AdminView.vue'),
+      meta: { title: '管理面板', requiresAuth: true, hideLayout: true },
+    },
   ],
 })
 
-// 路由守卫：设置页面标题
+// 路由守卫
 router.beforeEach((to, from, next) => {
+  // 设置页面标题
   document.title = to.meta.title ? `${to.meta.title} - bug毁灭者` : 'bug毁灭者'
+
+  // 检查是否需要认证
+  if (to.meta.requiresAuth) {
+    const { checkSession } = useAuth()
+    if (!checkSession()) {
+      // 未登录，重定向到登录页
+      next({ name: 'admin-login' })
+      return
+    }
+  }
+
+  // 如果已登录，访问登录页，重定向到管理面板
+  if (to.name === 'admin-login') {
+    const { isAuthenticated } = useAuth()
+    if (isAuthenticated.value) {
+      next({ name: 'admin-dashboard' })
+      return
+    }
+  }
+
   next()
 })
 
