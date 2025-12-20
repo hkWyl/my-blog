@@ -2,56 +2,56 @@ import axios from 'axios'
 import blogConfig from '@/config/blog.config.js'
 
 // 创建 axios 实例
-const githubApi = axios.create({
+const giteeApi = axios.create({
   baseURL: blogConfig.api.base,
   timeout: 10000,
 })
 
-// 响应拦截器
-githubApi.interceptors.response.use(
-  (response) => response.data,
-  (error) => {
-    console.error('API 请求失败:', error)
-    return Promise.reject(error)
-  },
-)
-
 /**
- * 获取仓库文件树
+ * 获取仓库文件列表（通过 Gitee API）
  */
 export const getRepoTree = async () => {
   try {
-    const { owner, repo, branch } = blogConfig.github
-    // 添加时间戳参数绕过缓存（不添加自定义header避免CORS问题）
+    const { owner, repo, branch } = blogConfig.gitee
     const timestamp = new Date().getTime()
-    const response = await githubApi.get(`/repos/${owner}/${repo}/git/trees/${branch}`, {
+
+    // 使用 Gitee API 获取文件树
+    const response = await giteeApi.get(`/repos/${owner}/${repo}/git/trees/${branch}`, {
       params: {
         recursive: 1, // 递归获取所有文件
         t: timestamp, // 缓存破坏参数
       },
     })
-    return response
+
+    return {
+      tree: response.data.tree || []
+    }
   } catch (error) {
-    console.error('获取文件树失败:', error)
+    console.error('获取文件列表失败:', error)
     return { tree: [] }
   }
 }
 
 /**
- * 获取文件内容（使用 GitHub Raw URL，直接返回文本内容）
+ * 获取文件内容（通过 Gitee Raw URL）
  */
 export const getFileContent = async (path) => {
   try {
-    const { owner, repo, branch } = blogConfig.github
-    // 添加时间戳参数绕过 GitHub CDN 缓存（不添加自定义header避免CORS问题）
+    const { owner, repo, branch } = blogConfig.gitee
     const timestamp = new Date().getTime()
-    // 使用 GitHub raw content URL，直接获取文本内容
-    const rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${path}?t=${timestamp}`
+    // 使用 Gitee raw URL 直接获取文件内容
+    const rawUrl = `https://gitee.com/${owner}/${repo}/raw/${branch}/${encodeURIComponent(path)}?t=${timestamp}`
+
     const response = await axios.get(rawUrl)
+
+    // 返回格式兼容原有代码
     return {
-      content: response.data,
       path: path,
       name: path.split('/').pop(),
+      content: response.data, // 直接是文本内容
+      sha: '',
+      size: response.data?.length || 0,
+      download_url: rawUrl,
     }
   } catch (error) {
     console.error('获取文件内容失败:', error)
@@ -107,11 +107,14 @@ export const getPostDetail = async (path) => {
       return null
     }
 
-    // GitHub raw URL 直接返回文本内容，不需要 base64 解码
+    // Gitee raw URL 直接返回文本内容，不需要 base64 解码
     return {
       path: fileData.path,
       name: fileData.name,
       content: fileData.content,
+      sha: fileData.sha,
+      size: fileData.size,
+      download_url: fileData.download_url,
     }
   } catch (error) {
     console.error('获取文章详情失败:', error)
