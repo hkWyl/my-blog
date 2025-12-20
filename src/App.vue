@@ -2,9 +2,11 @@
 import { RouterView } from 'vue-router'
 import BlogHeader from './components/BlogHeader.vue'
 import BlogSidebar from './components/BlogSidebar.vue'
+import PlasmaBackground from './components/PlasmaBackground.vue'
 </script>
 
 <template>
+  <PlasmaBackground />
   <div id="app">
     <BlogHeader />
     <div class="container">

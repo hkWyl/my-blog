@@ -207,6 +207,10 @@ function handlePreviewScroll() {
   border-radius: 0.75rem;
   overflow: hidden;
   background: rgba(15, 23, 42, 0.5);
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 280px); /* 减去header和padding的高度 */
+  min-height: 600px;
 }
 
 :root:not(.dark) .markdown-editor {
@@ -220,6 +224,7 @@ function handlePreviewScroll() {
   padding: 0.75rem;
   background: rgba(15, 23, 42, 0.7);
   border-bottom: 1px solid rgba(100, 116, 139, 0.3);
+  flex-shrink: 0;
 }
 
 :root:not(.dark) .editor-toolbar {
@@ -260,7 +265,8 @@ function handlePreviewScroll() {
 .editor-container {
   display: grid;
   grid-template-columns: 1fr;
-  height: 500px;
+  flex: 1;
+  overflow: hidden;
 }
 
 .editor-container.split {
@@ -269,8 +275,8 @@ function handlePreviewScroll() {
 
 .editor-pane,
 .preview-pane {
-  height: 500px;
   overflow-y: auto;
+  height: 100%;
 }
 
 .editor-pane {
@@ -317,6 +323,7 @@ function handlePreviewScroll() {
   border-top: 1px solid rgba(100, 116, 139, 0.3);
   font-size: 0.75rem;
   color: var(--color-text-muted);
+  flex-shrink: 0;
 }
 
 :root:not(.dark) .editor-footer {
@@ -333,6 +340,11 @@ function handlePreviewScroll() {
   .editor-pane {
     border-right: none;
     border-bottom: 1px solid rgba(100, 116, 139, 0.3);
+  }
+
+  .markdown-editor {
+    height: calc(100vh - 200px);
+    min-height: 500px;
   }
 }
 </style>

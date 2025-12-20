@@ -93,7 +93,7 @@ export async function getFileContent(filepath) {
  * @param {string} message - 提交信息
  * @returns {Promise<Object>} 创建结果
  */
-export async function createFile(filepath, content, message = '创建新文件') {
+export async function createFile(filepath, content, message = '创建新文章') {
   const url = `${apiBase}/repos/${owner}/${repo}/contents/${encodeURIComponent(filepath)}`
 
   // 将内容编码为 base64
@@ -111,8 +111,21 @@ export async function createFile(filepath, content, message = '创建新文件')
     })
 
     if (!response.ok) {
-      const error = await response.json()
-      throw new Error(error.message || `HTTP ${response.status}`)
+      const errorData = await response.json()
+
+      // 特殊处理权限错误
+      if (response.status === 403 || errorData.message?.includes('Resource not accessible')) {
+        throw new Error(
+          '权限不足：您的 GitHub Token 可能没有足够的权限。\n' +
+          '请确保 Token 拥有以下权限：\n' +
+          '1. repo（完整仓库权限）\n' +
+          '2. workflow（如果需要操作 GitHub Actions）\n\n' +
+          '请前往 GitHub Settings > Developer settings > Personal access tokens，\n' +
+          '重新生成具有完整 repo 权限的 Token。'
+        )
+      }
+
+      throw new Error(errorData.message || `HTTP ${response.status}`)
     }
 
     const data = await response.json()
@@ -135,7 +148,7 @@ export async function createFile(filepath, content, message = '创建新文件')
  * @param {string} message - 提交信息
  * @returns {Promise<Object>} 更新结果
  */
-export async function updateFile(filepath, content, sha, message = '更新文件') {
+export async function updateFile(filepath, content, sha, message = '更新文章') {
   const url = `${apiBase}/repos/${owner}/${repo}/contents/${encodeURIComponent(filepath)}`
 
   // 将内容编码为 base64
@@ -154,8 +167,21 @@ export async function updateFile(filepath, content, sha, message = '更新文件
     })
 
     if (!response.ok) {
-      const error = await response.json()
-      throw new Error(error.message || `HTTP ${response.status}`)
+      const errorData = await response.json()
+
+      // 特殊处理权限错误
+      if (response.status === 403 || errorData.message?.includes('Resource not accessible')) {
+        throw new Error(
+          '权限不足：您的 GitHub Token 可能没有足够的权限。\n' +
+          '请确保 Token 拥有以下权限：\n' +
+          '1. repo（完整仓库权限）\n' +
+          '2. workflow（如果需要操作 GitHub Actions）\n\n' +
+          '请前往 GitHub Settings > Developer settings > Personal access tokens，\n' +
+          '重新生成具有完整 repo 权限的 Token。'
+        )
+      }
+
+      throw new Error(errorData.message || `HTTP ${response.status}`)
     }
 
     const data = await response.json()
