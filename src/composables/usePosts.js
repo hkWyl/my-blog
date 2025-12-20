@@ -12,9 +12,8 @@ export const usePosts = () => {
    * 加载所有文章
    */
   const loadAllPosts = async () => {
-    if (posts.value.length > 0) {
-      return posts.value // 已加载，直接返回
-    }
+    // 移除了缓存检查，每次都重新加载以确保获取最新内容
+    // API 层已经有时间戳参数来处理 HTTP 缓存
 
     loading.value = true
     error.value = null
