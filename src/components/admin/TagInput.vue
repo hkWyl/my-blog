@@ -130,7 +130,7 @@ function handleInput() {
   margin-bottom: 0.5rem;
   font-size: 0.875rem;
   font-weight: 500;
-  color: var(--color-text);
+  color: var(--admin-text);
 }
 
 .tags-display {
@@ -197,7 +197,7 @@ function handleInput() {
   min-width: 120px;
   background: none;
   border: none;
-  color: var(--color-text);
+  color: var(--admin-text);
   font-size: 0.9375rem;
   outline: none;
 }
@@ -235,7 +235,7 @@ function handleInput() {
   background: none;
   border: none;
   border-radius: 0.375rem;
-  color: var(--color-text);
+  color: var(--admin-text);
   font-size: 0.875rem;
   text-align: left;
   cursor: pointer;

@@ -420,7 +420,7 @@ async function handleDeletePost(post) {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
   border: none;
   border-radius: 0.5rem;
-  color: white;
+  color: #ffffff;
   font-size: 0.9375rem;
   font-weight: 500;
   cursor: pointer;
@@ -489,7 +489,7 @@ async function handleDeletePost(post) {
   background: var(--color-primary);
   border: none;
   border-radius: 0.5rem;
-  color: white;
+  color: #ffffff;
   cursor: pointer;
 }
 
@@ -713,7 +713,7 @@ async function handleDeletePost(post) {
 
 .btn-primary {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-  color: white;
+  color: #ffffff;
 }
 
 .btn-primary:hover:not(:disabled) {

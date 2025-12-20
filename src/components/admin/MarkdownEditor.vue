@@ -246,11 +246,18 @@ function handlePreviewScroll() {
   background: rgba(100, 116, 139, 0.2);
   border: 1px solid rgba(100, 116, 139, 0.3);
   border-radius: 0.375rem;
-  color: var(--color-text);
+  color: #e2e8f0;
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
+}
+
+/* Light mode */
+:root:not(.dark) .tool-btn {
+  color: #1e293b;
+  background: rgba(100, 116, 139, 0.15);
+  border-color: rgba(100, 116, 139, 0.4);
 }
 
 .tool-btn:hover {
