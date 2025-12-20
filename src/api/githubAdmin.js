@@ -9,6 +9,8 @@ function getAccessToken() {
   if (!token) {
     throw new Error('未配置 GitHub Access Token，请先在管理面板配置')
   }
+  console.log('🔑 Using GitHub Token:', token.substring(0, 20) + '...')
+  console.log('📦 Target Repo:', `${owner}/${repo}`, 'Branch:', branch)
   return token
 }
 
@@ -155,6 +157,10 @@ export async function createFile(filepath, content, message = '创建新文章')
  */
 export async function updateFile(filepath, content, sha, message = '更新文章') {
   const url = `${apiBase}/repos/${owner}/${repo}/contents/${encodeURIComponent(filepath)}`
+
+  console.log('📝 Updating file:', filepath)
+  console.log('🔗 API URL:', url)
+  console.log('🏷️  File SHA:', sha)
 
   // 将内容编码为 base64
   const base64Content = btoa(unescape(encodeURIComponent(content)))

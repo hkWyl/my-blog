@@ -262,6 +262,12 @@ function handleReset() {
   --admin-text-strong: #ffffff;
 }
 
+/* Light mode */
+:root:not(.dark) .profile-editor {
+  --admin-text: #1e293b;
+  --admin-text-strong: #0f172a;
+}
+
 .section-title {
   margin: 0 0 2rem;
   font-size: 1.5rem;

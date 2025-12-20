@@ -209,6 +209,13 @@ function handleClearToken() {
   --admin-text-muted: #e2e8f0;
 }
 
+/* Light mode */
+:root:not(.dark) .token-config {
+  --admin-text: #1e293b;
+  --admin-text-strong: #0f172a;
+  --admin-text-muted: #475569;
+}
+
 .section-title {
   margin: 0 0 2rem;
   font-size: 1.5rem;

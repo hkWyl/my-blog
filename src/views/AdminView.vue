@@ -83,9 +83,21 @@ function handleLogout() {
   padding: 2rem;
   display: flex;
   flex-direction: column;
+  /* Dark mode colors (default) */
   --admin-text: #f1f5f9;
   --admin-text-strong: #ffffff;
   --admin-text-muted: #e2e8f0;
+  --admin-bg: rgba(15, 23, 42, 0.85);
+  --admin-bg-secondary: rgba(30, 41, 59, 0.6);
+}
+
+/* Light mode: 深色文字 + 浅色背景 */
+:root:not(.dark) .admin-view {
+  --admin-text: #1e293b;
+  --admin-text-strong: #0f172a;
+  --admin-text-muted: #475569;
+  --admin-bg: rgba(255, 255, 255, 0.9);
+  --admin-bg-secondary: rgba(248, 250, 252, 0.9);
 }
 
 .admin-header {
@@ -94,15 +106,14 @@ function handleLogout() {
   align-items: center;
   margin-bottom: 2rem;
   padding: 1.5rem 2rem;
-  background: rgba(15, 23, 42, 0.85);
+  background: var(--admin-bg);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(66, 185, 131, 0.3);
   border-radius: 0.75rem;
 }
 
 :root:not(.dark) .admin-header {
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(66, 185, 131, 0.5);
 }
 
 .header-left {
@@ -148,7 +159,7 @@ function handleLogout() {
 }
 
 .admin-content {
-  background: rgba(15, 23, 42, 0.85);
+  background: var(--admin-bg);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(66, 185, 131, 0.3);
   border-radius: 0.75rem;
@@ -160,8 +171,7 @@ function handleLogout() {
 }
 
 :root:not(.dark) .admin-content {
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(66, 185, 131, 0.5);
 }
 
 .admin-tabs {

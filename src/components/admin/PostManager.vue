@@ -376,6 +376,13 @@ async function handleDeletePost(post) {
   --admin-text-muted: #e2e8f0;
 }
 
+/* Light mode */
+:root:not(.dark) .post-manager {
+  --admin-text: #1e293b;
+  --admin-text-strong: #0f172a;
+  --admin-text-muted: #475569;
+}
+
 .list-view,
 .editor-view {
   animation: fadeIn 0.3s;

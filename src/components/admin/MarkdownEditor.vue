@@ -216,6 +216,12 @@ function handlePreviewScroll() {
   --admin-text-strong: #ffffff;
 }
 
+/* Light mode */
+:root:not(.dark) .markdown-editor {
+  --admin-text: #1e293b;
+  --admin-text-strong: #0f172a;
+}
+
 :root:not(.dark) .markdown-editor {
   background: rgba(255, 255, 255, 0.7);
   border: 1px solid rgba(0, 0, 0, 0.2);
