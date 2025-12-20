@@ -162,7 +162,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { getAllPosts, getFileContent, createFile, updateFile, deleteFile, generateMarkdownContent } from '@/api/githubAdmin'
+import { getAllPosts, getFileContent, createFile, updateFile, deleteFile, generateMarkdownContent } from '@/api/giteeAdmin'
 import { parseFrontMatter } from '@/utils/markdown'
 import TagInput from './TagInput.vue'
 import MarkdownEditor from './MarkdownEditor.vue'
@@ -218,9 +218,9 @@ async function loadPosts() {
   error.value = ''
 
   // 检查是否有 token
-  const hasToken = localStorage.getItem('github_access_token')
+  const hasToken = localStorage.getItem('gitee_access_token')
   if (!hasToken) {
-    error.value = '未配置 GitHub Access Token，请先在"系统配置"标签页配置'
+    error.value = '未配置 Gitee Access Token，请先在"系统配置"标签页配置'
     loading.value = false
     return
   }

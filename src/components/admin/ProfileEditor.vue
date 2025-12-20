@@ -122,7 +122,6 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getFileContent, updateFile } from '@/api/githubAdmin'
 import blogConfig from '@/config/blog.config.js'
 
 const loading = ref(true)
