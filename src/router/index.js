@@ -85,8 +85,8 @@ router.beforeEach((to, from, next) => {
 
   // 如果已登录，访问登录页，重定向到管理面板
   if (to.name === 'admin-login') {
-    const { isAuthenticated } = useAuth()
-    if (isAuthenticated.value) {
+    const { checkSession } = useAuth()
+    if (checkSession()) {
       next({ name: 'admin-dashboard' })
       return
     }

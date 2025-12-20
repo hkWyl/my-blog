@@ -209,8 +209,9 @@ function handlePreviewScroll() {
   background: rgba(15, 23, 42, 0.5);
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 280px); /* 减去header和padding的高度 */
-  min-height: 600px;
+  height: 100%;
+  max-height: calc(100vh - 300px);
+  min-height: 500px;
 }
 
 :root:not(.dark) .markdown-editor {

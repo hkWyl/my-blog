@@ -168,21 +168,9 @@ async function loadConfig() {
       },
     }
 
-    // 检查是否有 token
-    const hasToken = localStorage.getItem('github_access_token')
-    if (!hasToken) {
-      console.warn('未配置 GitHub Token，跳过获取远程配置文件')
-      loading.value = false
-      return
-    }
-
-    // 获取配置文件的 SHA（用于更新）
-    try {
-      const fileData = await getFileContent('src/config/blog.config.js')
-      originalSha.value = fileData.sha
-    } catch (err) {
-      console.warn('无法获取配置文件 SHA，将使用当前数据')
-    }
+    // 注意：blog.config.js 是源代码文件，不在 GitHub 仓库的 posts 分支中
+    // 所以不需要获取 SHA，配置更改需要重新构建并部署
+    console.log('配置已加载，修改配置需要重新构建项目')
   } catch (err) {
     error.value = '加载配置失败：' + err.message
   } finally {
@@ -201,30 +189,15 @@ async function handleSave() {
     // 生成新的配置文件内容
     const newConfig = generateConfigFile()
 
-    // 如果没有 SHA，说明是首次操作，提示用户
-    if (!originalSha.value) {
-      error.value = '⚠️ 注意：无法直接保存到 Gitee。请手动将以下内容复制到 blog.config.js：\n' + newConfig
-      saving.value = false
-      return
-    }
+    // blog.config.js 是源代码文件，不能通过 API 直接修改
+    // 提供配置内容让用户手动复制
+    error.value = '⚠️ 配置文件是源代码的一部分，无法在线编辑。\n\n' +
+      '请复制以下内容，手动更新 src/config/blog.config.js，然后重新构建并部署：\n\n' +
+      newConfig
 
-    // 更新 Gitee 仓库中的配置文件
-    // 注意：这里更新的是 my-blog-posts 仓库，需要确保该仓库有这个文件
-    await updateFile(
-      'src/config/blog.config.js',
-      newConfig,
-      originalSha.value,
-      'Update: 更新博客配置'
-    )
-
-    success.value = true
-
-    // 3 秒后隐藏成功消息
-    setTimeout(() => {
-      success.value = false
-    }, 3000)
+    saving.value = false
   } catch (err) {
-    error.value = '保存失败：' + err.message
+    error.value = '生成配置失败：' + err.message
   } finally {
     saving.value = false
   }

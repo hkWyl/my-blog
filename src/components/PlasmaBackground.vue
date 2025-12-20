@@ -96,17 +96,6 @@ function drawBackground(ctx, canvas) {
       }
     }
   }
-
-  // 鼠标附近的静态光晕（不跟随移动）
-  if (mouseX > 0 && mouseY > 0) {
-    const gradient = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 80)
-    gradient.addColorStop(0, 'rgba(66, 185, 131, 0.15)')
-    gradient.addColorStop(1, 'rgba(66, 185, 131, 0)')
-    ctx.fillStyle = gradient
-    ctx.beginPath()
-    ctx.arc(mouseX, mouseY, 80, 0, Math.PI * 2)
-    ctx.fill()
-  }
 }
 
 function animate(ctx, canvas) {

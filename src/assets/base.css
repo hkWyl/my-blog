@@ -33,9 +33,9 @@
   --color-border: rgba(66, 185, 131, 0.2);
   --color-border-hover: rgba(66, 185, 131, 0.4);
 
-  --color-heading: #e2e8f0;
-  --color-text: #cbd5e1;
-  --color-text-muted: #94a3b8;
+  --color-heading: #f1f5f9;
+  --color-text: #e2e8f0;
+  --color-text-muted: #cbd5e1;
 }
 
 /* Dark theme */

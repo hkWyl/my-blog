@@ -80,6 +80,8 @@ function handleLogout() {
 .admin-view {
   min-height: 100vh;
   padding: 2rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .admin-header {
@@ -146,6 +148,10 @@ function handleLogout() {
   border: 1px solid rgba(100, 116, 139, 0.2);
   border-radius: 0.75rem;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
 }
 
 :root:not(.dark) .admin-content {
@@ -191,6 +197,9 @@ function handleLogout() {
 
 .tab-content {
   padding: 2rem;
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
 }
 
 @media (max-width: 768px) {
