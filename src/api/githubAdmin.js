@@ -29,10 +29,15 @@ function getHeaders() {
  * @returns {Promise<Array>} 文件列表
  */
 export async function getRepoFiles() {
-  const url = `${apiBase}/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`
+  // 添加时间戳参数强制绕过缓存
+  const timestamp = new Date().getTime()
+  const url = `${apiBase}/repos/${owner}/${repo}/git/trees/${branch}?recursive=1&t=${timestamp}`
 
   try {
-    const response = await fetch(url, { headers: getHeaders() })
+    const response = await fetch(url, {
+      headers: getHeaders(),
+      cache: 'no-cache' // 禁用浏览器缓存
+    })
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`)
     }
@@ -50,12 +55,17 @@ export async function getRepoFiles() {
  * @returns {Promise<Object>} 文件内容和元数据
  */
 export async function getFileContent(filepath) {
+  // 添加时间戳参数强制绕过缓存
+  const timestamp = new Date().getTime()
   const url = `${apiBase}/repos/${owner}/${repo}/contents/${encodeURIComponent(
     filepath
-  )}?ref=${branch}`
+  )}?ref=${branch}&t=${timestamp}`
 
   try {
-    const response = await fetch(url, { headers: getHeaders() })
+    const response = await fetch(url, {
+      headers: getHeaders(),
+      cache: 'no-cache' // 禁用浏览器缓存
+    })
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`)
     }

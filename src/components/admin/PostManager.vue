@@ -143,7 +143,7 @@
         </div>
 
         <div v-if="saveSuccess" class="success-message">
-          ✅ {{ isEditing ? '更新成功！' : '发布成功！' }}
+          ✅ {{ isEditing ? '更新成功！正在刷新列表...' : '发布成功！正在返回列表...' }}
         </div>
 
         <div class="form-actions">
@@ -353,11 +353,13 @@ async function handleSavePost() {
 
     saveSuccess.value = true
 
-    // 2 秒后返回列表
+    // 1.5 秒后返回列表并刷新
     setTimeout(async () => {
+      saveSuccess.value = false
       currentView.value = 'list'
+      // 重新加载文章列表（现在会强制刷新缓存）
       await loadPosts()
-    }, 2000)
+    }, 1500)
   } catch (err) {
     saveError.value = err.message || '保存失败'
   } finally {
