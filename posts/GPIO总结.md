@@ -1,5 +1,5 @@
 ---
-title: GPIO 总结
+title: GPIO 总结11
 date: 2025-12-19
 categories: [嵌入式开发, 单片机]
 tags: [GPIO, GD32, 单片机, 嵌入式, 硬件编程, STM32]
