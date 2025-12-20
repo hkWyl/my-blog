@@ -212,9 +212,12 @@ async function handleLogin() {
   transition: all 0.3s;
 }
 
-/* 浅色模式下按钮文字改为深色 */
+/* 浅色模式下按钮样式优化 */
 :root:not(.dark) .login-btn {
-  color: #0f172a;
+  color: #ffffff;
+  background: linear-gradient(135deg, #42b983 0%, #35a372 100%);
+  border: 2px solid #2d7a5e;
+  box-shadow: 0 2px 8px rgba(66, 185, 131, 0.3);
 }
 
 .login-btn span {

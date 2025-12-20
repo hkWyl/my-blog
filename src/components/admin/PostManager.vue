@@ -443,10 +443,13 @@ async function handleDeletePost(post) {
   transition: all 0.3s;
 }
 
-/* 浅色模式下按钮文字改为深色 */
+/* 浅色模式下按钮样式优化 */
 :root:not(.dark) .btn-new-post,
 :root:not(.dark) .btn-cancel {
-  color: #0f172a;
+  color: #ffffff;
+  background: linear-gradient(135deg, #42b983 0%, #35a372 100%);
+  border: 2px solid #2d7a5e;
+  box-shadow: 0 2px 8px rgba(66, 185, 131, 0.3);
 }
 
 .btn-new-post span,
@@ -743,9 +746,12 @@ async function handleDeletePost(post) {
   color: #ffffff;
 }
 
-/* 浅色模式下按钮文字改为深色 */
+/* 浅色模式下按钮样式优化 */
 :root:not(.dark) .btn-primary {
-  color: #0f172a;
+  color: #ffffff;
+  background: linear-gradient(135deg, #42b983 0%, #35a372 100%);
+  border: 2px solid #2d7a5e;
+  box-shadow: 0 2px 8px rgba(66, 185, 131, 0.3);
 }
 
 .btn-primary span {
@@ -761,6 +767,14 @@ async function handleDeletePost(post) {
   background: rgba(100, 116, 139, 0.2);
   color: var(--admin-text);
   border: 1px solid rgba(100, 116, 139, 0.3);
+}
+
+/* 浅色模式下次要按钮样式优化 */
+:root:not(.dark) .btn-secondary {
+  background: rgba(100, 116, 139, 0.15);
+  color: #1e293b;
+  border: 2px solid rgba(100, 116, 139, 0.5);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 .btn-secondary:hover:not(:disabled) {
