@@ -47,7 +47,8 @@ const paginatedPosts = computed(() => {
 })
 
 onMounted(async () => {
-  await loadAllPosts()
+  // 强制刷新以获取最新数据
+  await loadAllPosts(true)
 })
 </script>
 

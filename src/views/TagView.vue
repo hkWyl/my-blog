@@ -21,7 +21,8 @@ const tagName = ref(route.params.name)
 const tagPosts = ref([])
 
 onMounted(async () => {
-  await loadAllPosts()
+  // 强制刷新以获取最新数据
+  await loadAllPosts(true)
   tagPosts.value = getPostsByTag(tagName.value)
 })
 </script>

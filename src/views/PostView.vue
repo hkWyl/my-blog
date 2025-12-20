@@ -78,7 +78,8 @@ const initGitalk = () => {
 }
 
 onMounted(async () => {
-  await loadAllPosts()
+  // 强制刷新以获取最新数据
+  await loadAllPosts(true)
   post.value = getPostById(route.params.id)
 
   if (post.value) {

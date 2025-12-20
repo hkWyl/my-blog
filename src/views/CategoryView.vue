@@ -21,7 +21,8 @@ const categoryName = ref(route.params.name)
 const categoryPosts = ref([])
 
 onMounted(async () => {
-  await loadAllPosts()
+  // 强制刷新以获取最新数据
+  await loadAllPosts(true)
   categoryPosts.value = getPostsByCategory(categoryName.value)
 })
 </script>
