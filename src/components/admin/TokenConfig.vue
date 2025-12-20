@@ -204,13 +204,16 @@ function handleClearToken() {
 <style scoped>
 .token-config {
   max-width: 800px;
+  --admin-text: #f1f5f9;
+  --admin-text-strong: #ffffff;
+  --admin-text-muted: #e2e8f0;
 }
 
 .section-title {
   margin: 0 0 2rem;
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--color-heading);
+  color: var(--admin-text-strong);
 }
 
 .config-section {
@@ -236,7 +239,7 @@ function handleClearToken() {
 .section-description {
   margin: 0 0 1.5rem;
   font-size: 0.875rem;
-  color: var(--color-text-muted);
+  color: var(--admin-text-muted);
   line-height: 1.6;
 }
 
@@ -249,7 +252,7 @@ function handleClearToken() {
   margin-bottom: 0.5rem;
   font-size: 0.875rem;
   font-weight: 500;
-  color: var(--color-text);
+  color: var(--admin-text);
 }
 
 .token-input-group {
@@ -263,7 +266,7 @@ function handleClearToken() {
   background: rgba(15, 23, 42, 0.5);
   border: 1px solid rgba(100, 116, 139, 0.3);
   border-radius: 0.5rem;
-  color: var(--color-text);
+  color: var(--admin-text);
   font-size: 0.9375rem;
   font-family: 'Courier New', monospace;
   transition: all 0.3s;
@@ -285,7 +288,7 @@ function handleClearToken() {
   background: rgba(100, 116, 139, 0.2);
   border: 1px solid rgba(100, 116, 139, 0.3);
   border-radius: 0.5rem;
-  color: var(--color-text);
+  color: var(--admin-text);
   font-size: 0.875rem;
   cursor: pointer;
   white-space: nowrap;
@@ -299,7 +302,7 @@ function handleClearToken() {
 .field-hint {
   margin: 0.5rem 0 0;
   font-size: 0.75rem;
-  color: var(--color-text-muted);
+  color: var(--admin-text-muted);
   line-height: 1.5;
 }
 
@@ -429,7 +432,7 @@ function handleClearToken() {
 
 .btn-secondary {
   background: rgba(100, 116, 139, 0.2);
-  color: var(--color-text);
+  color: var(--admin-text);
   border: 1px solid rgba(100, 116, 139, 0.3);
 }
 
@@ -475,13 +478,13 @@ function handleClearToken() {
 .info-label {
   display: block;
   margin-bottom: 0.25rem;
-  color: var(--color-text-muted);
+  color: var(--admin-text-muted);
   font-size: 0.75rem;
 }
 
 .info-value {
   display: block;
-  color: var(--color-text);
+  color: var(--admin-text);
   font-weight: 500;
   font-family: 'Courier New', monospace;
 }

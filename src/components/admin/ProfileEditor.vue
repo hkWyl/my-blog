@@ -258,13 +258,15 @@ function handleReset() {
 <style scoped>
 .profile-editor {
   max-width: 800px;
+  --admin-text: #f1f5f9;
+  --admin-text-strong: #ffffff;
 }
 
 .section-title {
   margin: 0 0 2rem;
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--color-heading);
+  color: var(--admin-text-strong);
 }
 
 .loading-state {
@@ -307,9 +309,9 @@ function handleReset() {
 .form-section {
   margin-bottom: 2.5rem;
   padding: 1.5rem;
-  background: rgba(15, 23, 42, 0.3);
+  background: rgba(30, 41, 59, 0.6);
   border-radius: 0.75rem;
-  border: 1px solid rgba(100, 116, 139, 0.2);
+  border: 1px solid rgba(66, 185, 131, 0.3);
 }
 
 :root:not(.dark) .form-section {
@@ -337,17 +339,17 @@ function handleReset() {
   margin-bottom: 0.5rem;
   font-size: 0.875rem;
   font-weight: 500;
-  color: var(--color-text);
+  color: var(--admin-text-strong);
 }
 
 .form-group input,
 .form-group textarea {
   width: 100%;
   padding: 0.75rem 1rem;
-  background: rgba(15, 23, 42, 0.5);
-  border: 1px solid rgba(100, 116, 139, 0.3);
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(66, 185, 131, 0.3);
   border-radius: 0.5rem;
-  color: var(--color-text);
+  color: var(--admin-text-strong);
   font-size: 0.9375rem;
   font-family: inherit;
   transition: all 0.3s;

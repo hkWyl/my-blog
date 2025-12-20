@@ -203,15 +203,17 @@ function handlePreviewScroll() {
 
 <style scoped>
 .markdown-editor {
-  border: 1px solid rgba(100, 116, 139, 0.3);
+  border: 1px solid rgba(66, 185, 131, 0.3);
   border-radius: 0.75rem;
   overflow: hidden;
-  background: rgba(15, 23, 42, 0.5);
+  background: rgba(15, 23, 42, 0.7);
   display: flex;
   flex-direction: column;
   height: 100%;
   max-height: calc(100vh - 300px);
   min-height: 500px;
+  --admin-text: #f1f5f9;
+  --admin-text-strong: #ffffff;
 }
 
 :root:not(.dark) .markdown-editor {
@@ -223,8 +225,8 @@ function handlePreviewScroll() {
   display: flex;
   gap: 0.25rem;
   padding: 0.75rem;
-  background: rgba(15, 23, 42, 0.7);
-  border-bottom: 1px solid rgba(100, 116, 139, 0.3);
+  background: rgba(15, 23, 42, 0.9);
+  border-bottom: 1px solid rgba(66, 185, 131, 0.3);
   flex-shrink: 0;
 }
 
@@ -290,7 +292,7 @@ function handlePreviewScroll() {
   padding: 1.5rem;
   background: transparent;
   border: none;
-  color: var(--color-text);
+  color: var(--admin-text-strong);
   font-size: 0.9375rem;
   font-family: 'Courier New', Monaco, monospace;
   line-height: 1.6;
@@ -299,7 +301,7 @@ function handlePreviewScroll() {
 }
 
 .editor-textarea::placeholder {
-  color: var(--color-text-muted);
+  color: rgba(226, 232, 240, 0.5);
 }
 
 .preview-pane {
@@ -320,10 +322,10 @@ function handlePreviewScroll() {
   justify-content: flex-end;
   gap: 1.5rem;
   padding: 0.75rem 1rem;
-  background: rgba(15, 23, 42, 0.7);
-  border-top: 1px solid rgba(100, 116, 139, 0.3);
+  background: rgba(15, 23, 42, 0.9);
+  border-top: 1px solid rgba(66, 185, 131, 0.3);
   font-size: 0.75rem;
-  color: var(--color-text-muted);
+  color: var(--admin-text-strong);
   flex-shrink: 0;
 }
 

@@ -115,13 +115,18 @@ export async function createFile(filepath, content, message = '创建新文章')
 
       // 特殊处理权限错误
       if (response.status === 403 || errorData.message?.includes('Resource not accessible')) {
+        console.error('GitHub API 403 错误详情:', errorData)
         throw new Error(
-          '权限不足：您的 GitHub Token 可能没有足够的权限。\n' +
-          '请确保 Token 拥有以下权限：\n' +
-          '1. repo（完整仓库权限）\n' +
-          '2. workflow（如果需要操作 GitHub Actions）\n\n' +
-          '请前往 GitHub Settings > Developer settings > Personal access tokens，\n' +
-          '重新生成具有完整 repo 权限的 Token。'
+          `权限不足 (403): ${errorData.message || '无法访问资源'}\n\n` +
+          '可能的原因：\n' +
+          '1. Token 类型错误：请使用 Classic Personal Access Token\n' +
+          '2. 权限不足：Token 必须有 repo 权限（可读写 contents）\n' +
+          '3. 仓库不匹配：Token 只能访问特定仓库\n\n' +
+          '解决方案：\n' +
+          '前往 https://github.com/settings/tokens\n' +
+          '创建新的 Classic Token（不是 Fine-grained）\n' +
+          '勾选 "repo" 完整权限\n' +
+          '复制新 Token 并在管理面板重新配置'
         )
       }
 
@@ -171,13 +176,18 @@ export async function updateFile(filepath, content, sha, message = '更新文章
 
       // 特殊处理权限错误
       if (response.status === 403 || errorData.message?.includes('Resource not accessible')) {
+        console.error('GitHub API 403 错误详情:', errorData)
         throw new Error(
-          '权限不足：您的 GitHub Token 可能没有足够的权限。\n' +
-          '请确保 Token 拥有以下权限：\n' +
-          '1. repo（完整仓库权限）\n' +
-          '2. workflow（如果需要操作 GitHub Actions）\n\n' +
-          '请前往 GitHub Settings > Developer settings > Personal access tokens，\n' +
-          '重新生成具有完整 repo 权限的 Token。'
+          `权限不足 (403): ${errorData.message || '无法访问资源'}\n\n` +
+          '可能的原因：\n' +
+          '1. Token 类型错误：请使用 Classic Personal Access Token\n' +
+          '2. 权限不足：Token 必须有 repo 权限（可读写 contents）\n' +
+          '3. 仓库不匹配：Token 只能访问特定仓库\n\n' +
+          '解决方案：\n' +
+          '前往 https://github.com/settings/tokens\n' +
+          '创建新的 Classic Token（不是 Fine-grained）\n' +
+          '勾选 "repo" 完整权限\n' +
+          '复制新 Token 并在管理面板重新配置'
         )
       }
 

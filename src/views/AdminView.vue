@@ -77,11 +77,15 @@ function handleLogout() {
 </script>
 
 <style scoped>
+/* 管理面板专用：强制高对比度 */
 .admin-view {
   min-height: 100vh;
   padding: 2rem;
   display: flex;
   flex-direction: column;
+  --admin-text: #f1f5f9;
+  --admin-text-strong: #ffffff;
+  --admin-text-muted: #e2e8f0;
 }
 
 .admin-header {
@@ -90,9 +94,9 @@ function handleLogout() {
   align-items: center;
   margin-bottom: 2rem;
   padding: 1.5rem 2rem;
-  background: rgba(30, 41, 59, 0.4);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(100, 116, 139, 0.2);
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(66, 185, 131, 0.3);
   border-radius: 0.75rem;
 }
 
@@ -119,10 +123,11 @@ function handleLogout() {
 
 .session-info {
   font-size: 0.875rem;
-  color: var(--color-text-muted);
+  color: var(--admin-text-strong);
   padding: 0.375rem 0.75rem;
-  background: rgba(66, 185, 131, 0.1);
+  background: rgba(66, 185, 131, 0.2);
   border-radius: 0.375rem;
+  border: 1px solid rgba(66, 185, 131, 0.4);
 }
 
 .logout-btn {
@@ -143,9 +148,9 @@ function handleLogout() {
 }
 
 .admin-content {
-  background: rgba(30, 41, 59, 0.4);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(100, 116, 139, 0.2);
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(66, 185, 131, 0.3);
   border-radius: 0.75rem;
   overflow: hidden;
   display: flex;
@@ -174,7 +179,7 @@ function handleLogout() {
   background: transparent;
   border: none;
   border-bottom: 3px solid transparent;
-  color: var(--color-text-muted);
+  color: var(--admin-text-muted);
   font-size: 0.9375rem;
   font-weight: 500;
   cursor: pointer;
@@ -183,11 +188,11 @@ function handleLogout() {
 }
 
 .tab-btn:hover {
-  color: var(--color-primary);
+  color: var(--admin-text-strong);
 }
 
 .tab-btn.active {
-  color: var(--color-primary);
+  color: var(--admin-text-strong);
   border-bottom-color: var(--color-primary);
 }
 

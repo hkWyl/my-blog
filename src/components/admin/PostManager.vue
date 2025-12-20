@@ -371,6 +371,9 @@ async function handleDeletePost(post) {
 <style scoped>
 .post-manager {
   max-width: 1200px;
+  --admin-text: #f1f5f9;
+  --admin-text-strong: #ffffff;
+  --admin-text-muted: #e2e8f0;
 }
 
 .list-view,
@@ -401,7 +404,7 @@ async function handleDeletePost(post) {
   margin: 0;
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--color-heading);
+  color: var(--admin-text-strong);
 }
 
 .btn-new-post,
@@ -433,7 +436,7 @@ async function handleDeletePost(post) {
   background: rgba(15, 23, 42, 0.5);
   border: 1px solid rgba(100, 116, 139, 0.3);
   border-radius: 0.5rem;
-  color: var(--color-text);
+  color: var(--admin-text);
   font-size: 0.9375rem;
   transition: all 0.3s;
 }
@@ -454,7 +457,7 @@ async function handleDeletePost(post) {
 .empty-state {
   text-align: center;
   padding: 4rem 2rem;
-  color: var(--color-text-muted);
+  color: var(--admin-text-muted);
 }
 
 .spinner {
@@ -516,19 +519,19 @@ async function handleDeletePost(post) {
   margin: 0 0 0.5rem;
   font-size: 1.125rem;
   font-weight: 600;
-  color: var(--color-heading);
+  color: var(--admin-text-strong);
   line-height: 1.4;
 }
 
 .post-item-date {
   font-size: 0.8125rem;
-  color: var(--color-text-muted);
+  color: var(--admin-text-muted);
 }
 
 .post-item-excerpt {
   margin: 0 0 1rem;
   font-size: 0.875rem;
-  color: var(--color-text-muted);
+  color: var(--admin-text-muted);
   line-height: 1.6;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -558,7 +561,7 @@ async function handleDeletePost(post) {
   padding: 0.25rem 0.625rem;
   background: rgba(100, 116, 139, 0.2);
   border-radius: 0.25rem;
-  color: var(--color-text-muted);
+  color: var(--admin-text-muted);
   font-size: 0.75rem;
 }
 
@@ -623,7 +626,7 @@ async function handleDeletePost(post) {
   margin-bottom: 0.5rem;
   font-size: 0.875rem;
   font-weight: 500;
-  color: var(--color-text);
+  color: var(--admin-text);
 }
 
 .form-group input,
@@ -633,7 +636,7 @@ async function handleDeletePost(post) {
   background: rgba(15, 23, 42, 0.5);
   border: 1px solid rgba(100, 116, 139, 0.3);
   border-radius: 0.5rem;
-  color: var(--color-text);
+  color: var(--admin-text);
   font-size: 0.9375rem;
   font-family: inherit;
   transition: all 0.3s;
@@ -660,7 +663,7 @@ async function handleDeletePost(post) {
 .field-hint {
   margin: 0.375rem 0 0;
   font-size: 0.75rem;
-  color: var(--color-text-muted);
+  color: var(--admin-text-muted);
 }
 
 .error-message,
@@ -713,7 +716,7 @@ async function handleDeletePost(post) {
 
 .btn-secondary {
   background: rgba(100, 116, 139, 0.2);
-  color: var(--color-text);
+  color: var(--admin-text);
   border: 1px solid rgba(100, 116, 139, 0.3);
 }
 
