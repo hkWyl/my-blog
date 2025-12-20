@@ -5,6 +5,7 @@ export default {
   subtitle: '记录技术成长的点点滴滴',
   author: '小小怪',
   description: '一个专注于技术分享的个人博客',
+  avatar: 'https://img.xintp.com/c2023/08/25/jld0yeg3kcw.jpg',
 
   // Gitee 配置
   gitee: {
