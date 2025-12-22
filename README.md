@@ -1,6 +1,6 @@
 # bug毁灭者 - 个人技术博客
 
-基于 **Vue 3 + Vite + Gitee** 搭建的现代化个人博客系统。
+基于 **Vue 3 + Vite + GitHub** 搭建的现代化个人博客系统。
 
 ## 🌟 特性
 
@@ -11,7 +11,7 @@
 - ✅ 响应式设计，完美适配移动端
 - ✅ 代码高亮显示
 - ✅ 支持评论系统（Gitalk）
-- ✅ 一键部署到 Gitee Pages
+- ✅ 一键部署到 GitHub Pages
 
 ## 📦 技术栈
 
@@ -46,7 +46,7 @@ pnpm dev
 pnpm build
 ```
 
-### 一键部署到 Gitee Pages
+### 一键部署到 GitHub Pages
 
 ```bash
 ./deploy.sh
@@ -70,7 +70,7 @@ excerpt: 文章摘要
 这里是文章正文...
 ```
 
-推送到 Gitee 后，文章会自动显示在博客中！
+推送到 Gitee 后，运行 `./deploy.sh` 部署，文章会自动显示在博客中！
 
 ## 🔧 配置
 
@@ -111,9 +111,10 @@ gitee-blog/
 
 ## 🌐 在线访问
 
-- **博客地址**: https://love-little-monster.gitee.io/my-blog/
+- **博客地址**: https://hkwyl.github.io/my-blog/
+- **管理面板**: https://hkwyl.github.io/my-blog/#/admin （密码：admin123）
 - **文章仓库**: https://gitee.com/love-little-monster/my-blog-posts
-- **博客仓库**: https://gitee.com/love-little-monster/my-blog
+- **博客仓库**: https://github.com/hkWyl/my-blog
 
 ## 📄 开源协议
 

@@ -17,7 +17,7 @@ export default defineConfig({
     port: 3000,
     open: true,
   },
-  // Gitee Pages 部署配置
+  // GitHub Pages 部署配置
   base: process.env.NODE_ENV === 'production' ? '/my-blog/' : '/',
   build: {
     outDir: 'dist',
