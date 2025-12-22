@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuth } from '@/composables/useAuth'
 import ProfileEditor from '@/components/admin/ProfileEditor.vue'
@@ -67,6 +67,8 @@ const sessionTimeDisplay = computed(() => {
   return `${timeLeftMinutes} 分钟`
 })
 
+let sessionCheckTimer = null
+
 onMounted(() => {
   // 检查登录状态
   if (!checkSession()) {
@@ -74,16 +76,35 @@ onMounted(() => {
     return
   }
 
-  // 定期刷新会话
-  setInterval(() => {
-    if (isAuthenticated.value) {
-      refreshSession()
+  // 定期检查会话是否过期（每 30 秒检查一次）
+  sessionCheckTimer = setInterval(() => {
+    if (!checkSession()) {
+      // 会话已过期，清除定时器并跳转到登录页
+      if (sessionCheckTimer) {
+        clearInterval(sessionCheckTimer)
+        sessionCheckTimer = null
+      }
+      alert('会话已过期，请重新登录')
+      router.push('/admin')
     }
-  }, 5 * 60 * 1000) // 每 5 分钟刷新一次
+  }, 30 * 1000) // 每 30 秒检查一次
+})
+
+onBeforeUnmount(() => {
+  // 组件卸载时清除定时器
+  if (sessionCheckTimer) {
+    clearInterval(sessionCheckTimer)
+    sessionCheckTimer = null
+  }
 })
 
 function handleLogout() {
   if (confirm('确定要退出登录吗？')) {
+    // 清除定时器
+    if (sessionCheckTimer) {
+      clearInterval(sessionCheckTimer)
+      sessionCheckTimer = null
+    }
     logout()
     router.push('/admin')
   }
