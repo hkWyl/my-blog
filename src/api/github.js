@@ -33,25 +33,36 @@ export const getRepoTree = async () => {
 }
 
 /**
- * 获取文件内容（通过 GitHub Raw URL）
+ * 获取文件内容（通过 GitHub Contents API - 无缓存）
  */
 export const getFileContent = async (path) => {
   try {
     const { owner, repo, branch } = blogConfig.github
     const timestamp = new Date().getTime()
-    // 使用 GitHub raw URL 直接获取文件内容
-    const rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${encodeURIComponent(path)}?t=${timestamp}`
 
-    const response = await axios.get(rawUrl)
+    // 使用 GitHub Contents API 获取文件内容（无缓存）
+    const apiUrl = `${blogConfig.api.base}/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}?ref=${branch}&t=${timestamp}`
+
+    const response = await axios.get(apiUrl, {
+      headers: {
+        'Accept': 'application/vnd.github+json',
+      }
+    })
+
+    // GitHub API 返回 base64 编码的内容，需要解码
+    let content = ''
+    if (response.data.content) {
+      content = decodeBase64Content(response.data.content)
+    }
 
     // 返回格式兼容原有代码
     return {
-      path: path,
-      name: path.split('/').pop(),
-      content: response.data, // 直接是文本内容
-      sha: '',
-      size: response.data?.length || 0,
-      download_url: rawUrl,
+      path: response.data.path,
+      name: response.data.name,
+      content: content, // 解码后的文本内容
+      sha: response.data.sha,
+      size: response.data.size,
+      download_url: response.data.download_url,
     }
   } catch (error) {
     console.error('获取文件内容失败:', error)
@@ -60,12 +71,19 @@ export const getFileContent = async (path) => {
 }
 
 /**
- * 解析 Base64 内容为文本
+ * 解析 Base64 内容为文本（处理 GitHub API 返回的格式）
  */
 export const decodeBase64Content = (base64Content) => {
   try {
+    // 清理 base64 字符串：移除所有空白字符（GitHub API 返回的 base64 有换行）
+    const cleanBase64 = base64Content.replace(/\s/g, '')
+
+    // 解码 base64
+    const decoded = atob(cleanBase64)
+
+    // 转换为 UTF-8
     return decodeURIComponent(
-      atob(base64Content)
+      decoded
         .split('')
         .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
         .join(''),

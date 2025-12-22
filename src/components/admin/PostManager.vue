@@ -271,20 +271,20 @@ async function handleEditPost(post) {
   try {
     const latestFile = await getFileContent(post.filename)
 
-    // 解析最新的 frontmatter
-    const { data: frontMatter } = parseFrontMatter(latestFile.content)
+    // 解析最新的 frontmatter - 注意：parseFrontMatter 返回 { meta, content }
+    const { meta: frontMatter, content: parsedContent } = parseFrontMatter(latestFile.content)
     const contentMatch = latestFile.content.match(/^---\n[\s\S]*?\n---\n([\s\S]*)$/)
-    const mainContent = contentMatch ? contentMatch[1] : latestFile.content
+    const mainContent = contentMatch ? contentMatch[1] : parsedContent
 
     postForm.value = {
-      title: frontMatter.title || post.title,
-      date: frontMatter.date || post.date,
+      title: frontMatter.title || post.title || '无标题',
+      date: frontMatter.date || post.date || new Date().toISOString().split('T')[0],
       filename: post.filename,
       categories: Array.isArray(frontMatter.categories) ? frontMatter.categories :
                   (typeof frontMatter.categories === 'string' ? frontMatter.categories.split(',').map(c => c.trim()) : []),
       tags: Array.isArray(frontMatter.tags) ? frontMatter.tags :
             (typeof frontMatter.tags === 'string' ? frontMatter.tags.split(',').map(t => t.trim()) : []),
-      excerpt: frontMatter.excerpt || post.excerpt,
+      excerpt: frontMatter.excerpt || post.excerpt || '',
       content: mainContent.trim(),
       sha: latestFile.sha,
     }
