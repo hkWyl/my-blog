@@ -377,6 +377,7 @@ export async function updateAdminConfig(config) {
       auth: {
         passwordHash: config.auth.passwordHash,
         securityQuestions: config.auth.securityQuestions || [],
+        sessionTimeout: config.auth.sessionTimeout || 24 * 60 * 60 * 1000, // 默认24小时
       },
       lastUpdated: new Date().toISOString(),
     }

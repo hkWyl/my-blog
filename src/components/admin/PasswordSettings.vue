@@ -56,6 +56,49 @@
       </form>
     </div>
 
+    <!-- 会话管理区域 -->
+    <div class="settings-section">
+      <div class="subsection-header">
+        <h3 class="subsection-title">会话管理</h3>
+        <p class="hint">设置登录会话的有效期，超时后需要重新登录</p>
+      </div>
+
+      <form @submit.prevent="handleUpdateSessionTimeout" class="session-form">
+        <div class="form-group">
+          <label for="session-timeout">会话超时时间</label>
+          <div class="timeout-input-group">
+            <input
+              id="session-timeout"
+              v-model.number="sessionTimeoutHours"
+              type="number"
+              min="0.5"
+              max="168"
+              step="0.5"
+              placeholder="24"
+              required
+            />
+            <span class="unit">小时</span>
+          </div>
+          <p class="field-hint">
+            建议：1-24小时。关闭浏览器后会话自动失效，需要重新登录
+          </p>
+        </div>
+
+        <div v-if="sessionError" class="error-message">
+          {{ sessionError }}
+        </div>
+
+        <div v-if="sessionSuccess" class="success-message">
+          ✅ 会话时间已更新
+        </div>
+
+        <button type="submit" class="btn-secondary" :disabled="savingSession">
+          <span v-if="savingSession">保存中...</span>
+          <span v-else>更新会话时间</span>
+        </button>
+      </form>
+    </div>
+
     <!-- 安全问题区域 -->
     <div class="settings-section">
       <div class="subsection-header">
@@ -163,9 +206,18 @@ const savingQuestion = ref(false)
 const questionError = ref('')
 const questionSuccess = ref(false)
 
+// 会话管理
+const sessionTimeoutHours = ref(24)
+const savingSession = ref(false)
+const sessionError = ref('')
+const sessionSuccess = ref(false)
+
 onMounted(() => {
   // 加载现有的安全问题
   securityQuestions.value = [...(adminConfig.auth.securityQuestions || [])]
+
+  // 加载当前会话超时设置（转换为小时）
+  sessionTimeoutHours.value = adminConfig.auth.sessionTimeout / (60 * 60 * 1000)
 })
 
 // SHA-256 哈希函数
@@ -232,6 +284,47 @@ async function handleChangePassword() {
     passwordError.value = '修改失败：' + err.message
   } finally {
     savingPassword.value = false
+  }
+}
+
+// 更新会话超时时间
+async function handleUpdateSessionTimeout() {
+  sessionError.value = ''
+  sessionSuccess.value = false
+
+  if (sessionTimeoutHours.value < 0.5 || sessionTimeoutHours.value > 168) {
+    sessionError.value = '会话时间必须在 0.5 到 168 小时之间'
+    return
+  }
+
+  savingSession.value = true
+
+  try {
+    // 将小时转换为毫秒
+    const timeoutInMs = sessionTimeoutHours.value * 60 * 60 * 1000
+
+    // 更新配置
+    const newConfig = {
+      ...adminConfig,
+      auth: {
+        ...adminConfig.auth,
+        sessionTimeout: timeoutInMs,
+      },
+    }
+
+    await updateAdminConfig(newConfig)
+
+    // 更新本地配置
+    adminConfig.auth.sessionTimeout = timeoutInMs
+
+    sessionSuccess.value = true
+    setTimeout(() => {
+      sessionSuccess.value = false
+    }, 3000)
+  } catch (err) {
+    sessionError.value = '更新失败：' + err.message
+  } finally {
+    savingSession.value = false
   }
 }
 
@@ -383,10 +476,28 @@ async function handleDeleteQuestion(index) {
 }
 
 .password-form,
-.add-question-form {
+.add-question-form,
+.session-form {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+.timeout-input-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.timeout-input-group input {
+  flex: 1;
+  max-width: 150px;
+}
+
+.timeout-input-group .unit {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--admin-text-muted);
 }
 
 .form-title {
