@@ -196,6 +196,7 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import adminConfig from '@/config/admin.config.js'
 import { updateAdminConfig } from '@/api/githubAdmin'
+import { updateSessionTimeout } from '@/composables/useAuth'
 
 const router = useRouter()
 
@@ -356,6 +357,9 @@ async function handleUpdateSessionTimeout() {
 
     // 更新本地配置
     adminConfig.auth.sessionTimeout = timeoutInMs
+
+    // 更新响应式的会话超时（这样界面上的剩余时间会立即更新）
+    updateSessionTimeout(timeoutInMs)
 
     sessionSuccess.value = true
     setTimeout(() => {

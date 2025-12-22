@@ -39,7 +39,6 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuth } from '@/composables/useAuth'
-import adminConfig from '@/config/admin.config.js'
 import ProfileEditor from '@/components/admin/ProfileEditor.vue'
 import PostManager from '@/components/admin/PostManager.vue'
 import TokenConfig from '@/components/admin/TokenConfig.vue'
@@ -58,12 +57,14 @@ const tabs = [
 ]
 
 // 会话时间显示（永不过期时显示特殊文本）
+// 使用 sessionTimeLeft 的值来判断，超过 30 天的分钟数认为是永不过期
 const sessionTimeDisplay = computed(() => {
-  // 如果会话时间超过30天，认为是永不过期
-  if (adminConfig.auth.sessionTimeout > 30 * 24 * 60 * 60 * 1000) {
+  const timeLeftMinutes = sessionTimeLeft.value
+  // 30天 = 30 * 24 * 60 = 43200 分钟
+  if (timeLeftMinutes > 43000) {
     return '永不过期'
   }
-  return `${sessionTimeLeft.value} 分钟`
+  return `${timeLeftMinutes} 分钟`
 })
 
 onMounted(() => {
