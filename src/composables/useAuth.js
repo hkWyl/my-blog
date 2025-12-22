@@ -8,17 +8,13 @@ const authState = ref({
   loginTime: null,
 })
 
-// 会话超时配置（毫秒），默认24小时
-let sessionTimeout = adminConfig.auth.sessionTimeout
-
 // 加载远程配置中的会话超时设置
 async function loadSessionTimeout() {
   try {
     const remoteConfig = await loadAdminConfig()
     if (remoteConfig?.auth?.sessionTimeout) {
-      sessionTimeout = remoteConfig.auth.sessionTimeout
       // 同步到本地配置
-      adminConfig.auth.sessionTimeout = sessionTimeout
+      adminConfig.auth.sessionTimeout = remoteConfig.auth.sessionTimeout
     }
   } catch (error) {
     console.log('使用默认会话超时配置')
@@ -34,7 +30,8 @@ export function useAuth() {
   const sessionTimeLeft = computed(() => {
     if (!authState.value.loginTime) return 0
     const elapsed = Date.now() - authState.value.loginTime
-    const remaining = sessionTimeout - elapsed
+    // 直接从 adminConfig 读取最新的超时配置，确保响应式更新
+    const remaining = adminConfig.auth.sessionTimeout - elapsed
     return Math.max(0, Math.floor(remaining / 1000 / 60)) // 转换为分钟
   })
 
@@ -77,7 +74,8 @@ export function useAuth() {
       const sessionData = JSON.parse(session)
       const elapsed = Date.now() - sessionData.loginTime
 
-      if (elapsed < sessionTimeout) {
+      // 使用 adminConfig 中的最新超时配置
+      if (elapsed < adminConfig.auth.sessionTimeout) {
         authState.value = sessionData
         return true
       } else {

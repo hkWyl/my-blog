@@ -65,22 +65,37 @@
 
       <form @submit.prevent="handleUpdateSessionTimeout" class="session-form">
         <div class="form-group">
+          <label class="checkbox-label">
+            <input
+              v-model="neverExpire"
+              type="checkbox"
+              @change="handleNeverExpireChange"
+            />
+            <span>永不过期</span>
+          </label>
+          <p class="field-hint">
+            勾选后会话将不会超时（仅关闭浏览器后需要重新登录）
+          </p>
+        </div>
+
+        <div class="form-group" v-if="!neverExpire">
           <label for="session-timeout">会话超时时间</label>
           <div class="timeout-input-group">
             <input
               id="session-timeout"
-              v-model.number="sessionTimeoutHours"
+              v-model.number="sessionTimeoutMinutes"
               type="number"
-              min="0.5"
-              max="168"
-              step="0.5"
-              placeholder="24"
+              min="1"
+              max="43200"
+              step="1"
+              placeholder="1440"
               required
+              :disabled="neverExpire"
             />
-            <span class="unit">小时</span>
+            <span class="unit">分钟</span>
           </div>
           <p class="field-hint">
-            建议：1-24小时。关闭浏览器后会话自动失效，需要重新登录
+            建议：60-1440分钟（1小时-24小时）
           </p>
         </div>
 
@@ -207,7 +222,8 @@ const questionError = ref('')
 const questionSuccess = ref(false)
 
 // 会话管理
-const sessionTimeoutHours = ref(24)
+const sessionTimeoutMinutes = ref(1440) // 默认1440分钟（24小时）
+const neverExpire = ref(false)
 const savingSession = ref(false)
 const sessionError = ref('')
 const sessionSuccess = ref(false)
@@ -216,8 +232,16 @@ onMounted(() => {
   // 加载现有的安全问题
   securityQuestions.value = [...(adminConfig.auth.securityQuestions || [])]
 
-  // 加载当前会话超时设置（转换为小时）
-  sessionTimeoutHours.value = adminConfig.auth.sessionTimeout / (60 * 60 * 1000)
+  // 加载当前会话超时设置（转换为分钟）
+  const timeoutMs = adminConfig.auth.sessionTimeout
+  // 检查是否为永不过期（超过30天认为是永不过期）
+  if (timeoutMs > 30 * 24 * 60 * 60 * 1000) {
+    neverExpire.value = true
+    sessionTimeoutMinutes.value = 1440 // 显示默认值
+  } else {
+    neverExpire.value = false
+    sessionTimeoutMinutes.value = Math.floor(timeoutMs / (60 * 1000))
+  }
 })
 
 // SHA-256 哈希函数
@@ -287,22 +311,38 @@ async function handleChangePassword() {
   }
 }
 
+// 处理永不过期选项变化
+function handleNeverExpireChange() {
+  if (neverExpire.value) {
+    // 勾选永不过期时，清空错误信息
+    sessionError.value = ''
+  }
+}
+
 // 更新会话超时时间
 async function handleUpdateSessionTimeout() {
   sessionError.value = ''
   sessionSuccess.value = false
 
-  if (sessionTimeoutHours.value < 0.5 || sessionTimeoutHours.value > 168) {
-    sessionError.value = '会话时间必须在 0.5 到 168 小时之间'
-    return
+  let timeoutInMs
+
+  if (neverExpire.value) {
+    // 永不过期：设置为 365 天（一年）
+    timeoutInMs = 365 * 24 * 60 * 60 * 1000
+  } else {
+    // 验证输入
+    if (sessionTimeoutMinutes.value < 1 || sessionTimeoutMinutes.value > 43200) {
+      sessionError.value = '会话时间必须在 1 到 43200 分钟之间（最多30天）'
+      return
+    }
+
+    // 将分钟转换为毫秒
+    timeoutInMs = sessionTimeoutMinutes.value * 60 * 1000
   }
 
   savingSession.value = true
 
   try {
-    // 将小时转换为毫秒
-    const timeoutInMs = sessionTimeoutHours.value * 60 * 60 * 1000
-
     // 更新配置
     const newConfig = {
       ...adminConfig,
@@ -517,6 +557,25 @@ async function handleDeleteQuestion(index) {
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--admin-text);
+}
+
+.checkbox-label {
+  display: flex !important;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  margin-bottom: 0 !important;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: auto;
+  cursor: pointer;
+  margin: 0;
+}
+
+.checkbox-label span {
+  font-size: 0.9375rem;
+  color: var(--admin-text-strong);
 }
 
 .form-group input {

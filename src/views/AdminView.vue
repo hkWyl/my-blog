@@ -3,7 +3,7 @@
     <header class="admin-header">
       <div class="header-left">
         <h1 class="admin-title">管理面板</h1>
-        <span class="session-info">会话剩余: {{ sessionTimeLeft }} 分钟</span>
+        <span class="session-info">会话剩余: {{ sessionTimeDisplay }}</span>
       </div>
       <div class="header-right">
         <button @click="handleLogout" class="logout-btn">
@@ -36,9 +36,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuth } from '@/composables/useAuth'
+import adminConfig from '@/config/admin.config.js'
 import ProfileEditor from '@/components/admin/ProfileEditor.vue'
 import PostManager from '@/components/admin/PostManager.vue'
 import TokenConfig from '@/components/admin/TokenConfig.vue'
@@ -55,6 +56,15 @@ const tabs = [
   { id: 'config', label: '系统配置', icon: '⚙️' },
   { id: 'password', label: '密码设置', icon: '🔒' },
 ]
+
+// 会话时间显示（永不过期时显示特殊文本）
+const sessionTimeDisplay = computed(() => {
+  // 如果会话时间超过30天，认为是永不过期
+  if (adminConfig.auth.sessionTimeout > 30 * 24 * 60 * 60 * 1000) {
+    return '永不过期'
+  }
+  return `${sessionTimeLeft.value} 分钟`
+})
 
 onMounted(() => {
   // 检查登录状态
