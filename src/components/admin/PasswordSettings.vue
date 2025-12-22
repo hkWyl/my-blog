@@ -27,6 +27,7 @@
             required
             minlength="6"
           />
+          <p class="field-hint">支持所有字符（中文、英文、数字、特殊符号等），至少6位</p>
         </div>
 
         <div class="form-group">
