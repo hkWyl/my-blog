@@ -8,6 +8,16 @@ export default {
     // 工具地址：https://emn178.github.io/online-tools/sha256.html
     passwordHash: '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9',
 
+    // 安全问题配置（用于找回密码）
+    // 问题和答案都使用 SHA-256 哈希存储
+    securityQuestions: [
+      // 示例：问题 "你的小学名称是？" 答案 "实验小学"
+      // {
+      //   question: '你的小学名称是？',
+      //   answerHash: 'SHA-256哈希值'
+      // }
+    ],
+
     // 会话过期时间（毫秒）- 默认 24 小时
     sessionTimeout: 24 * 60 * 60 * 1000,
   },

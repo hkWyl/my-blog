@@ -35,6 +35,7 @@ export const usePosts = () => {
           id: generatePostId(file.path),
           path: file.path,
           title: meta.title || detail.name.replace('.md', ''),
+          author: meta.author || '',
           date: meta.date || '',
           categories: meta.categories || [],
           tags: meta.tags || [],

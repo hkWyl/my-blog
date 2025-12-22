@@ -4,6 +4,7 @@
       <div class="post-header">
         <h2 class="post-title">{{ post.title }}</h2>
         <div class="post-meta">
+          <span v-if="post.author" class="author">{{ post.author }}</span>
           <span class="date">{{ formatDate(post.date) }}</span>
           <span v-if="post.categories.length > 0" class="categories">
             <span v-for="category in post.categories" :key="category" class="category">

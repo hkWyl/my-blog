@@ -29,6 +29,7 @@
         <ProfileEditor v-if="activeTab === 'profile'" />
         <PostManager v-else-if="activeTab === 'posts'" />
         <TokenConfig v-else-if="activeTab === 'config'" />
+        <PasswordSettings v-else-if="activeTab === 'password'" />
       </div>
     </div>
   </div>
@@ -41,6 +42,7 @@ import { useAuth } from '@/composables/useAuth'
 import ProfileEditor from '@/components/admin/ProfileEditor.vue'
 import PostManager from '@/components/admin/PostManager.vue'
 import TokenConfig from '@/components/admin/TokenConfig.vue'
+import PasswordSettings from '@/components/admin/PasswordSettings.vue'
 
 const router = useRouter()
 const { isAuthenticated, sessionTimeLeft, logout, checkSession, refreshSession } = useAuth()
@@ -51,6 +53,7 @@ const tabs = [
   { id: 'profile', label: '个人资料', icon: '👤' },
   { id: 'posts', label: '文章管理', icon: '📝' },
   { id: 'config', label: '系统配置', icon: '⚙️' },
+  { id: 'password', label: '密码设置', icon: '🔒' },
 ]
 
 onMounted(() => {

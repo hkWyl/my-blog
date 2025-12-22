@@ -60,6 +60,12 @@ const router = createRouter({
       meta: { title: '管理员登录', hideLayout: true },
     },
     {
+      path: '/admin/reset-password',
+      name: 'password-reset',
+      component: () => import('../views/PasswordReset.vue'),
+      meta: { title: '找回密码', hideLayout: true },
+    },
+    {
       path: '/admin/dashboard',
       name: 'admin-dashboard',
       component: () => import('../views/AdminView.vue'),

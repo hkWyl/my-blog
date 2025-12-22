@@ -85,10 +85,22 @@
 
         <div class="form-row">
           <div class="form-group">
+            <label for="post-author">作者</label>
+            <input
+              id="post-author"
+              v-model="postForm.author"
+              type="text"
+              placeholder="请输入作者名称"
+            />
+          </div>
+
+          <div class="form-group">
             <label for="post-date">发布日期 *</label>
             <input id="post-date" v-model="postForm.date" type="date" required />
           </div>
+        </div>
 
+        <div class="form-row">
           <div class="form-group">
             <label for="post-filename">文件名 *</label>
             <input
@@ -183,6 +195,7 @@ const editingPost = ref(null)
 
 const postForm = ref({
   title: '',
+  author: '',
   date: new Date().toISOString().split('T')[0],
   filename: '',
   categories: [],
@@ -250,6 +263,7 @@ function handleNewPost() {
 
   postForm.value = {
     title: '',
+    author: '',
     date: new Date().toISOString().split('T')[0],
     filename: '',
     categories: [],
@@ -278,6 +292,7 @@ async function handleEditPost(post) {
 
     postForm.value = {
       title: frontMatter.title || post.title || '无标题',
+      author: frontMatter.author || post.author || '',
       date: frontMatter.date || post.date || new Date().toISOString().split('T')[0],
       filename: post.filename,
       categories: Array.isArray(frontMatter.categories) ? frontMatter.categories :
@@ -295,6 +310,7 @@ async function handleEditPost(post) {
     // 如果失败，降级使用缓存数据
     postForm.value = {
       title: post.title || '无标题',
+      author: post.author || '',
       date: post.date || new Date().toISOString().split('T')[0],
       filename: post.filename || '',
       categories: Array.isArray(post.categories) ? [...post.categories] : [],
@@ -355,6 +371,7 @@ async function handleSavePost() {
     const markdownContent = generateMarkdownContent(
       {
         title: postForm.value.title,
+        author: postForm.value.author,
         date: postForm.value.date,
         categories: postForm.value.categories,
         tags: postForm.value.tags,

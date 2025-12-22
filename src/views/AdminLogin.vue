@@ -28,6 +28,10 @@
           <span v-if="loading">登录中...</span>
           <span v-else>登 录</span>
         </button>
+
+        <router-link to="/admin/reset-password" class="forgot-link">
+          忘记密码？
+        </router-link>
       </form>
 
       <div class="login-footer">
@@ -236,6 +240,21 @@ async function handleLogin() {
 .login-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.forgot-link {
+  display: block;
+  text-align: center;
+  margin-top: 1rem;
+  color: var(--color-primary);
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.forgot-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
 }
 
 .login-footer {

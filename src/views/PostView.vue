@@ -6,6 +6,7 @@
       <header class="post-header">
         <h1 class="post-title">{{ post.title }}</h1>
         <div class="post-meta">
+          <span v-if="post.author" class="author">作者: {{ post.author }}</span>
           <span class="date">{{ formatDate(post.date) }}</span>
           <span v-if="post.categories.length > 0" class="categories">
             <router-link

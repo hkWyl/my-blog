@@ -314,18 +314,19 @@ function parseFrontMatter(content) {
  * @returns {string} 完整的 Markdown 内容
  */
 export function generateMarkdownContent(frontMatter, content) {
-  const { title, date, categories, tags, excerpt } = frontMatter
+  const { title, author, date, categories, tags, excerpt } = frontMatter
 
   const fm = [
     '---',
     `title: ${title}`,
+    author ? `author: ${author}` : null,
     `date: ${date}`,
     `categories: [${Array.isArray(categories) ? categories.join(', ') : categories}]`,
     `tags: [${Array.isArray(tags) ? tags.join(', ') : tags}]`,
     `excerpt: ${excerpt}`,
     '---',
     '',
-  ].join('\n')
+  ].filter(line => line !== null).join('\n')
 
   return fm + content
 }
@@ -349,3 +350,60 @@ export async function verifyToken() {
     return false
   }
 }
+
+/**
+ * 加载远程管理员配置
+ * @returns {Promise<Object|null>} 管理员配置或null
+ */
+export async function loadAdminConfig() {
+  try {
+    const configFile = await getFileContent('admin-config.json')
+    return JSON.parse(configFile.content)
+  } catch (error) {
+    console.log('未找到远程配置文件，使用默认配置')
+    return null
+  }
+}
+
+/**
+ * 更新远程管理员配置
+ * @param {Object} config - 新的配置对象
+ * @returns {Promise<void>}
+ */
+export async function updateAdminConfig(config) {
+  try {
+    // 只保存认证相关的配置
+    const configToSave = {
+      auth: {
+        passwordHash: config.auth.passwordHash,
+        securityQuestions: config.auth.securityQuestions || [],
+      },
+      lastUpdated: new Date().toISOString(),
+    }
+
+    const content = JSON.stringify(configToSave, null, 2)
+
+    // 尝试获取现有文件的 SHA
+    let sha = null
+    try {
+      const existing = await getFileContent('admin-config.json')
+      sha = existing.sha
+    } catch (error) {
+      // 文件不存在，将创建新文件
+    }
+
+    if (sha) {
+      // 更新现有文件
+      await updateFile('admin-config.json', content, sha, 'Update admin config')
+    } else {
+      // 创建新文件
+      await createFile('admin-config.json', content, 'Create admin config')
+    }
+
+    console.log('✅ 管理员配置已更新')
+  } catch (error) {
+    console.error('❌ 更新管理员配置失败:', error)
+    throw new Error('更新配置失败：' + error.message)
+  }
+}
+
