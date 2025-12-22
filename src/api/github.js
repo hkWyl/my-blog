@@ -2,21 +2,21 @@ import axios from 'axios'
 import blogConfig from '@/config/blog.config.js'
 
 // 创建 axios 实例
-const giteeApi = axios.create({
+const githubApi = axios.create({
   baseURL: blogConfig.api.base,
   timeout: 10000,
 })
 
 /**
- * 获取仓库文件列表（通过 Gitee API）
+ * 获取仓库文件列表（通过 GitHub API）
  */
 export const getRepoTree = async () => {
   try {
-    const { owner, repo, branch } = blogConfig.gitee
+    const { owner, repo, branch } = blogConfig.github
     const timestamp = new Date().getTime()
 
-    // 使用 Gitee API 获取文件树
-    const response = await giteeApi.get(`/repos/${owner}/${repo}/git/trees/${branch}`, {
+    // 使用 GitHub API 获取文件树
+    const response = await githubApi.get(`/repos/${owner}/${repo}/git/trees/${branch}`, {
       params: {
         recursive: 1, // 递归获取所有文件
         t: timestamp, // 缓存破坏参数
@@ -33,14 +33,14 @@ export const getRepoTree = async () => {
 }
 
 /**
- * 获取文件内容（通过 Gitee Raw URL）
+ * 获取文件内容（通过 GitHub Raw URL）
  */
 export const getFileContent = async (path) => {
   try {
-    const { owner, repo, branch } = blogConfig.gitee
+    const { owner, repo, branch } = blogConfig.github
     const timestamp = new Date().getTime()
-    // 使用 Gitee raw URL 直接获取文件内容
-    const rawUrl = `https://gitee.com/${owner}/${repo}/raw/${branch}/${encodeURIComponent(path)}?t=${timestamp}`
+    // 使用 GitHub raw URL 直接获取文件内容
+    const rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${encodeURIComponent(path)}?t=${timestamp}`
 
     const response = await axios.get(rawUrl)
 
@@ -107,7 +107,7 @@ export const getPostDetail = async (path) => {
       return null
     }
 
-    // Gitee raw URL 直接返回文本内容，不需要 base64 解码
+    // GitHub raw URL 直接返回文本内容，不需要 base64 解码
     return {
       path: fileData.path,
       name: fileData.name,

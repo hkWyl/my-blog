@@ -153,9 +153,9 @@ async function loadConfig() {
   error.value = ''
 
   try {
-    // 先尝试从 Gitee 仓库加载 profile.json
+    // 先尝试从 GitHub 仓库加载 profile.json
     try {
-      const { getFileContent } = await import('@/api/giteeAdmin')
+      const { getFileContent } = await import('@/api/githubAdmin')
       const profileFile = await getFileContent('profile.json')
       const profileData = JSON.parse(profileFile.content)
 
@@ -221,7 +221,7 @@ async function handleSave() {
     const profileContent = JSON.stringify(profileData, null, 2)
 
     // 导入管理API函数
-    const { createFile, updateFile, getFileContent } = await import('@/api/giteeAdmin')
+    const { createFile, updateFile, getFileContent } = await import('@/api/githubAdmin')
 
     try {
       // 尝试获取现有文件

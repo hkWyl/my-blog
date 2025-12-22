@@ -162,7 +162,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { getAllPosts, getFileContent, createFile, updateFile, deleteFile, generateMarkdownContent } from '@/api/giteeAdmin'
+import { getAllPosts, getFileContent, createFile, updateFile, deleteFile, generateMarkdownContent } from '@/api/githubAdmin'
 import { parseFrontMatter } from '@/utils/markdown'
 import TagInput from './TagInput.vue'
 import MarkdownEditor from './MarkdownEditor.vue'
@@ -218,9 +218,9 @@ async function loadPosts() {
   error.value = ''
 
   // 检查是否有 token
-  const hasToken = localStorage.getItem('gitee_access_token')
+  const hasToken = localStorage.getItem('github_access_token')
   if (!hasToken) {
-    error.value = '未配置 Gitee Access Token，请先在"系统配置"标签页配置'
+    error.value = '未配置 GitHub Access Token，请先在"系统配置"标签页配置'
     loading.value = false
     return
   }
@@ -294,14 +294,14 @@ async function handleEditPost(post) {
     console.error('❌ 获取最新文件失败，使用缓存数据:', error)
     // 如果失败，降级使用缓存数据
     postForm.value = {
-      title: post.title,
-      date: post.date,
-      filename: post.filename,
-      categories: [...post.categories],
-      tags: [...post.tags],
-      excerpt: post.excerpt,
-      content: post.content,
-      sha: post.sha,
+      title: post.title || '无标题',
+      date: post.date || new Date().toISOString().split('T')[0],
+      filename: post.filename || '',
+      categories: Array.isArray(post.categories) ? [...post.categories] : [],
+      tags: Array.isArray(post.tags) ? [...post.tags] : [],
+      excerpt: post.excerpt || '',
+      content: post.content || '',
+      sha: post.sha || '',
     }
   }
 

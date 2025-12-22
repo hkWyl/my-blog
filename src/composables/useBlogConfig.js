@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import blogConfig from '@/config/blog.config.js'
-import { getFileContent } from '@/api/gitee.js'
+import { getFileContent } from '@/api/github.js'
 
 const config = ref({ ...blogConfig })
 const loaded = ref(false)
@@ -13,7 +13,7 @@ export function useBlogConfig() {
     if (loaded.value) return
 
     try {
-      // 尝试从 Gitee 仓库加载 profile.json
+      // 尝试从 GitHub 仓库加载 profile.json
       const profileFile = await getFileContent('profile.json')
       if (profileFile && profileFile.content) {
         const profileData = JSON.parse(profileFile.content)

@@ -4,8 +4,8 @@
     <div v-else-if="error" class="error">{{ error }}</div>
     <div v-else>
       <div v-if="posts.length === 0" class="empty">
-        <p>还没有文章，快去 Gitee 仓库添加第一篇文章吧！</p>
-        <a :href="`https://gitee.com/${config.gitee.owner}/${config.gitee.repo}`" target="_blank">
+        <p>还没有文章，快去 GitHub 仓库添加第一篇文章吧！</p>
+        <a :href="`https://github.com/${config.github?.owner}/${config.github?.repo}`" target="_blank">
           前往仓库 →
         </a>
       </div>

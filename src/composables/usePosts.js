@@ -1,5 +1,5 @@
 import { ref, computed } from 'vue'
-import { getAllPosts, getPostDetail } from '@/api/gitee'
+import { getAllPosts, getPostDetail } from '@/api/github'
 import { parseFrontMatter, extractExcerpt, generatePostId } from '@/utils/markdown'
 
 // 全局状态

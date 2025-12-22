@@ -3,19 +3,19 @@
     <h2 class="section-title">系统配置</h2>
 
     <div class="config-section">
-      <h3 class="section-subtitle">Gitee Access Token</h3>
+      <h3 class="section-subtitle">GitHub Access Token</h3>
       <p class="section-description">
-        配置 Gitee Personal Access Token 以管理文章。Token 会安全地存储在浏览器本地。
+        配置 GitHub Personal Access Token 以管理文章。Token 会安全地存储在浏览器本地。
       </p>
 
       <div class="form-group">
-        <label for="gitee-token">Gitee Access Token *</label>
+        <label for="github-token">GitHub Access Token *</label>
         <div class="token-input-group">
           <input
-            id="gitee-token"
+            id="github-token"
             v-model="tokenInput"
             :type="showToken ? 'text' : 'password'"
-            placeholder="请输入 Gitee Access Token"
+            placeholder="请输入 GitHub Access Token"
             class="token-input"
           />
           <button type="button" @click="showToken = !showToken" class="btn-toggle-visibility">
@@ -23,9 +23,9 @@
           </button>
         </div>
         <p class="field-hint">
-          需要具有 <code>projects</code> 权限的 Token。
+          需要具有 <code>repo</code> 权限的 Token。
           <a
-            href="https://gitee.com/profile/personal_access_tokens"
+            href="https://github.com/settings/tokens/new"
             target="_blank"
             rel="noopener noreferrer"
             class="help-link"
@@ -94,19 +94,19 @@
       <div class="info-grid">
         <div class="info-item">
           <span class="info-label">仓库所有者：</span>
-          <span class="info-value">{{ adminConfig.gitee.owner }}</span>
+          <span class="info-value">{{ adminConfig.github.owner }}</span>
         </div>
         <div class="info-item">
           <span class="info-label">仓库名称：</span>
-          <span class="info-value">{{ adminConfig.gitee.repo }}</span>
+          <span class="info-value">{{ adminConfig.github.repo }}</span>
         </div>
         <div class="info-item">
           <span class="info-label">分支：</span>
-          <span class="info-value">{{ adminConfig.gitee.branch }}</span>
+          <span class="info-value">{{ adminConfig.github.branch }}</span>
         </div>
         <div class="info-item">
           <span class="info-label">API 地址：</span>
-          <span class="info-value">{{ adminConfig.gitee.apiBase }}</span>
+          <span class="info-value">{{ adminConfig.github.apiBase }}</span>
         </div>
       </div>
       <p class="field-hint">如需修改仓库信息，请编辑 src/config/admin.config.js</p>
@@ -116,7 +116,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { verifyToken } from '@/api/giteeAdmin'
+import { verifyToken } from '@/api/githubAdmin'
 import adminConfig from '@/config/admin.config.js'
 
 const tokenInput = ref('')
@@ -128,7 +128,7 @@ const verifySuccess = ref(false)
 
 onMounted(() => {
   // 加载已保存的 token
-  const savedToken = localStorage.getItem('gitee_access_token')
+  const savedToken = localStorage.getItem('github_access_token')
   if (savedToken) {
     currentToken.value = savedToken
     tokenInput.value = savedToken
@@ -144,8 +144,8 @@ async function handleVerifyToken() {
 
   try {
     // 临时保存 token 以便验证
-    const originalToken = localStorage.getItem('gitee_access_token')
-    localStorage.setItem('gitee_access_token', tokenInput.value.trim())
+    const originalToken = localStorage.getItem('github_access_token')
+    localStorage.setItem('github_access_token', tokenInput.value.trim())
 
     const isValid = await verifyToken()
 
@@ -157,9 +157,9 @@ async function handleVerifyToken() {
     } else {
       // 恢复原来的 token
       if (originalToken) {
-        localStorage.setItem('gitee_access_token', originalToken)
+        localStorage.setItem('github_access_token', originalToken)
       } else {
-        localStorage.removeItem('gitee_access_token')
+        localStorage.removeItem('github_access_token')
       }
       verifyError.value = 'Token 验证失败，请检查 Token 是否有效以及是否具有正确的权限'
     }
@@ -172,12 +172,12 @@ async function handleVerifyToken() {
 
 function handleSaveToken() {
   if (!tokenInput.value.trim()) {
-    alert('请输入 Gitee Access Token')
+    alert('请输入 GitHub Access Token')
     return
   }
 
   try {
-    localStorage.setItem('gitee_access_token', tokenInput.value.trim())
+    localStorage.setItem('github_access_token', tokenInput.value.trim())
     currentToken.value = tokenInput.value.trim()
     alert('✅ Token 保存成功！')
   } catch (error) {
@@ -191,7 +191,7 @@ function handleClearToken() {
   }
 
   try {
-    localStorage.removeItem('gitee_access_token')
+    localStorage.removeItem('github_access_token')
     currentToken.value = ''
     tokenInput.value = ''
     alert('Token 已清除')

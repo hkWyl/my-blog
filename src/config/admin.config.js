@@ -12,19 +12,19 @@ export default {
     sessionTimeout: 24 * 60 * 60 * 1000,
   },
 
-  // Gitee API 配置
-  gitee: {
-    // Token 会从 localStorage 读取，key 为 'gitee_access_token'
+  // GitHub API 配置
+  github: {
+    // Token 会从 localStorage 读取，key 为 'github_access_token'
     // 请在管理面板的"系统配置"页面输入 Token
-    // 获取 Token: https://gitee.com/profile/personal_access_tokens
+    // 获取 Token: https://github.com/settings/tokens
 
     // 仓库信息
-    owner: 'love-little-monster',
-    repo: 'my-blog-posts',
-    branch: 'master', // Gitee 默认分支通常是 master
+    owner: 'hkWyl',
+    repo: '-my-blog-posts',
+    branch: 'main', // GitHub 默认分支是 main
 
     // API 基础地址
-    apiBase: 'https://gitee.com/api/v5',
+    apiBase: 'https://api.github.com',
   },
 
   // 编辑器配置
