@@ -218,14 +218,14 @@ export default {
   description: '${form.value.description}',
   avatar: '${form.value.avatar}',
 
-  // GitHub 配置（文章存储在 GitHub）
-  github: {
-    owner: '${blogConfig.github.owner}',
-    repo: '${blogConfig.github.repo}',
-    branch: '${blogConfig.github.branch}',
+  // Gitee 配置（文章存储在 Gitee）
+  gitee: {
+    owner: '${blogConfig.gitee.owner}',
+    repo: '${blogConfig.gitee.repo}',
+    branch: '${blogConfig.gitee.branch}',
   },
 
-  // GitHub API 地址
+  // Gitee API 地址
   api: {
     base: '${blogConfig.api.base}',
   },
