@@ -283,6 +283,7 @@ function handlePreviewScroll() {
   grid-template-columns: 1fr;
   flex: 1;
   overflow: hidden;
+  min-height: 0; /* 关键：允许flex子元素正确计算高度 */
 }
 
 .editor-container.split {
@@ -291,8 +292,10 @@ function handlePreviewScroll() {
 
 .editor-pane,
 .preview-pane {
-  overflow-y: auto;
+  overflow-y: auto; /* 启用垂直滚动 */
+  overflow-x: hidden; /* 禁用水平滚动 */
   height: 100%;
+  position: relative;
 }
 
 .editor-pane {
@@ -301,7 +304,7 @@ function handlePreviewScroll() {
 
 .editor-textarea {
   width: 100%;
-  height: 100%;
+  min-height: 100%; /* 改为最小高度，允许内容扩展 */
   padding: 1.5rem;
   background: transparent;
   border: none;
@@ -311,6 +314,7 @@ function handlePreviewScroll() {
   line-height: 1.6;
   resize: none;
   outline: none;
+  box-sizing: border-box; /* 确保padding计算在内 */
 }
 
 .editor-textarea::placeholder {
