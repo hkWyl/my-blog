@@ -250,9 +250,21 @@ async function handleLogin() {
   color: #e2e8f0;
 }
 
+/* 浅色模式下提示文字改为深色 */
+:root:not(.dark) .hint {
+  color: #475569;
+  font-weight: 500;
+}
+
 .security-note {
   margin: 0;
   font-size: 0.75rem;
   color: #f59e0b;
+}
+
+/* 浅色模式下警告文字改为深橙色 */
+:root:not(.dark) .security-note {
+  color: #ea580c;
+  font-weight: 600;
 }
 </style>
