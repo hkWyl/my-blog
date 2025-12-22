@@ -27,11 +27,16 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import { useDarkMode } from '@/composables/useDarkMode'
-import blogConfig from '@/config/blog.config.js'
+import { useBlogConfig } from '@/composables/useBlogConfig'
 
-const config = blogConfig
+const { config, loadProfile } = useBlogConfig()
 const { isDark, toggleDarkMode } = useDarkMode()
+
+onMounted(async () => {
+  await loadProfile()
+})
 </script>
 
 <style scoped>

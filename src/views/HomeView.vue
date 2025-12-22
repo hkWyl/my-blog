@@ -29,20 +29,24 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { usePosts } from '@/composables/usePosts'
+import { useBlogConfig } from '@/composables/useBlogConfig'
 import PostCard from '@/components/PostCard.vue'
-import blogConfig from '@/config/blog.config.js'
 
-const config = blogConfig
+const { config, loadProfile } = useBlogConfig()
 const { posts, loading, error, loadAllPosts } = usePosts()
 
-const currentPage = ref(1)
-const pageSize = config.pageSize
+onMounted(async () => {
+  await loadProfile()
+})
 
-const totalPages = computed(() => Math.ceil(posts.value.length / pageSize))
+const currentPage = ref(1)
+const pageSize = computed(() => config.value.pageSize || 10)
+
+const totalPages = computed(() => Math.ceil(posts.value.length / pageSize.value))
 
 const paginatedPosts = computed(() => {
-  const start = (currentPage.value - 1) * pageSize
-  const end = start + pageSize
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
   return posts.value.slice(start, end)
 })
 

@@ -47,9 +47,14 @@
 </template>
 
 <script setup>
-import blogConfig from '@/config/blog.config.js'
+import { onMounted } from 'vue'
+import { useBlogConfig } from '@/composables/useBlogConfig'
 
-const config = blogConfig
+const { config, loadProfile } = useBlogConfig()
+
+onMounted(async () => {
+  await loadProfile()
+})
 </script>
 
 <style scoped>

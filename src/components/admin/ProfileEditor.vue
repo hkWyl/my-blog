@@ -103,7 +103,7 @@
         </div>
 
         <div v-if="success" class="success-message">
-          ✅ 保存成功！更改将在下次部署后生效。
+          ✅ 保存成功！刷新博客页面即可看到更新。
         </div>
 
         <div class="form-actions">
@@ -153,23 +153,41 @@ async function loadConfig() {
   error.value = ''
 
   try {
-    // 从当前配置加载数据
-    form.value = {
-      title: blogConfig.title || '',
-      subtitle: blogConfig.subtitle || '',
-      author: blogConfig.author || '',
-      description: blogConfig.description || '',
-      avatar: blogConfig.avatar || '',
-      social: {
-        gitee: blogConfig.social?.gitee || '',
-        github: blogConfig.social?.github || '',
-        email: blogConfig.social?.email || '',
-      },
-    }
+    // 先尝试从 Gitee 仓库加载 profile.json
+    try {
+      const { getFileContent } = await import('@/api/giteeAdmin')
+      const profileFile = await getFileContent('profile.json')
+      const profileData = JSON.parse(profileFile.content)
 
-    // 注意：blog.config.js 是源代码文件，不在 GitHub 仓库的 posts 分支中
-    // 所以不需要获取 SHA，配置更改需要重新构建并部署
-    console.log('配置已加载，修改配置需要重新构建项目')
+      form.value = {
+        title: profileData.title || '',
+        subtitle: profileData.subtitle || '',
+        author: profileData.author || '',
+        description: profileData.description || '',
+        avatar: profileData.avatar || '',
+        social: {
+          gitee: profileData.social?.gitee || '',
+          github: profileData.social?.github || '',
+          email: profileData.social?.email || '',
+        },
+      }
+      console.log('从 profile.json 加载配置成功')
+    } catch (err) {
+      // 如果 profile.json 不存在，使用 blog.config.js 的默认值
+      console.log('profile.json 不存在，使用默认配置')
+      form.value = {
+        title: blogConfig.title || '',
+        subtitle: blogConfig.subtitle || '',
+        author: blogConfig.author || '',
+        description: blogConfig.description || '',
+        avatar: blogConfig.avatar || '',
+        social: {
+          gitee: blogConfig.social?.gitee || '',
+          github: blogConfig.social?.github || '',
+          email: blogConfig.social?.email || '',
+        },
+      }
+    }
   } catch (err) {
     error.value = '加载配置失败：' + err.message
   } finally {
@@ -185,18 +203,46 @@ async function handleSave() {
   success.value = false
 
   try {
-    // 生成新的配置文件内容
-    const newConfig = generateConfigFile()
+    // 将个人资料保存到 Gitee 仓库的 profile.json 文件
+    const profileData = {
+      title: form.value.title,
+      subtitle: form.value.subtitle,
+      author: form.value.author,
+      description: form.value.description,
+      avatar: form.value.avatar,
+      social: {
+        gitee: form.value.social.gitee,
+        github: form.value.social.github,
+        email: form.value.social.email,
+      },
+      updatedAt: new Date().toISOString(),
+    }
 
-    // blog.config.js 是源代码文件，不能通过 API 直接修改
-    // 提供配置内容让用户手动复制
-    error.value = '⚠️ 配置文件是源代码的一部分，无法在线编辑。\n\n' +
-      '请复制以下内容，手动更新 src/config/blog.config.js，然后重新构建并部署：\n\n' +
-      newConfig
+    const profileContent = JSON.stringify(profileData, null, 2)
 
-    saving.value = false
+    // 导入管理API函数
+    const { createFile, updateFile, getFileContent } = await import('@/api/giteeAdmin')
+
+    try {
+      // 尝试获取现有文件
+      const existingFile = await getFileContent('profile.json')
+      // 文件存在，更新它
+      await updateFile('profile.json', profileContent, existingFile.sha, 'Update: 更新个人资料')
+    } catch (err) {
+      // 文件不存在，创建新文件
+      if (err.message.includes('404')) {
+        await createFile('profile.json', profileContent, 'Add: 创建个人资料配置')
+      } else {
+        throw err
+      }
+    }
+
+    success.value = true
+    setTimeout(() => {
+      success.value = false
+    }, 3000)
   } catch (err) {
-    error.value = '生成配置失败：' + err.message
+    error.value = '保存失败：' + err.message
   } finally {
     saving.value = false
   }

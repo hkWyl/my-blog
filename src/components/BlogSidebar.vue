@@ -102,12 +102,16 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { usePosts } from '@/composables/usePosts'
-import blogConfig from '@/config/blog.config.js'
+import { useBlogConfig } from '@/composables/useBlogConfig'
 
-const config = blogConfig
+const { config, loadProfile } = useBlogConfig()
 const { allCategories, allTags, searchPosts } = usePosts()
+
+onMounted(async () => {
+  await loadProfile()
+})
 
 const searchQuery = ref('')
 const searchResults = ref([])

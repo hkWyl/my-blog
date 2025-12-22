@@ -46,11 +46,17 @@ import { ref, computed, onMounted, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
 import { usePosts } from '@/composables/usePosts'
 import { renderMarkdown } from '@/utils/markdown'
-import blogConfig from '@/config/blog.config.js'
+import { useBlogConfig } from '@/composables/useBlogConfig'
 import 'highlight.js/styles/github-dark.css'
 
 const route = useRoute()
 const { posts, loading, loadAllPosts, getPostById } = usePosts()
+const { config, loadProfile } = useBlogConfig()
+
+onMounted(async () => {
+  await loadProfile()
+  await loadPost()
+})
 
 const post = ref(null)
 const renderedContent = ref('')
